@@ -9,7 +9,7 @@ const MODES = {
   clubs: {
     label: 'Clubs & Academies',
     icon: Building2,
-    accent: '#2A6FD6',
+    accent: '#00B5FF',
     accentSoft: 'rgba(42,111,214,0.15)',
     orgName: 'Al-Hilal FC',
     kpis: [
@@ -147,7 +147,7 @@ function ModePill({ modeKey, active, onSelect }) {
       <span className="w-7 h-7 rounded-full flex items-center justify-center transition-colors duration-500" style={{ background: active ? m.accent : 'rgba(255,255,255,0.06)' }}>
         <Icon size={13} style={{ color: active ? '#fff' : 'rgba(255,255,255,0.5)' }} />
       </span>
-      <span className={`text-sm font-semibold ${active ? 'text-white' : 'text-white/55'}`}>{m.label}</span>
+      <span className={`text-sm font-semibold ${active ? 'text-gray-900 dark:text-white' : 'text-gray-400 dark:text-white/55'}`}>{m.label}</span>
     </button>
   )
 }
@@ -173,7 +173,7 @@ export default function DashboardPreview() {
   }
 
   return (
-    <section id="platform" ref={sectionRef} className="relative py-24 lg:py-32 bg-athlonix-dark overflow-hidden">
+    <section id="platform" ref={sectionRef} className="relative py-24 lg:py-32 bg-[#FAFBFC] dark:bg-athlonix-dark overflow-hidden">
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" />
       <div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full blur-3xl pointer-events-none transition-colors duration-700"
@@ -190,10 +190,10 @@ export default function DashboardPreview() {
           <span className="text-xs font-medium text-athlonix-blue tracking-widest uppercase mb-4 block">
             Platform Preview
           </span>
-          <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-semibold text-white mb-6">
+          <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-semibold text-gray-900 dark:text-white mb-6">
             See It in Action
           </h2>
-          <p className="text-white/40 text-sm max-w-xl mx-auto leading-relaxed">
+          <p className="text-gray-500 dark:text-white/40 text-sm max-w-xl mx-auto leading-relaxed">
             A live look at how Athlenix surfaces risk across a squad, in real time.
           </p>
         </motion.div>

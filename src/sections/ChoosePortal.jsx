@@ -27,7 +27,7 @@ const PORTALS = {
     icon: Building2,
     title: 'Clubs & Academies',
     desc: 'Manage athletes, staff, and performance programs in one intelligent platform.',
-    accent: '#2A6FD6',
+    accent: '#00B5FF',
     features: ['Monitor athlete health and performance', 'Plan training and recovery programs', 'Track progress and engagement', 'Generate insights and reports'],
     stats: [
       { label: 'Live Players', value: 154 },
@@ -85,12 +85,12 @@ function PortalHalf({ portalKey, isWide, isHovered, isInView, onEnter }) {
           <Icon size={21} style={{ color: portal.accent }} />
         </div>
 
-        <h3 className="font-display text-2xl md:text-3xl font-semibold text-white mb-2 whitespace-nowrap">{portal.title}</h3>
-        <p className="text-sm text-white/45 leading-relaxed mb-6 max-w-xs">{portal.desc}</p>
+        <h3 className="font-display text-2xl md:text-3xl font-semibold text-gray-900 dark:text-white mb-2 whitespace-nowrap">{portal.title}</h3>
+        <p className="text-sm text-gray-600 dark:text-white/45 leading-relaxed mb-6 max-w-xs">{portal.desc}</p>
 
         <ul className="space-y-2 mb-8" style={{ opacity: isWide ? 1 : 0.5, transition: 'opacity 0.5s ease' }}>
           {portal.features.map((f) => (
-            <li key={f} className="flex items-center gap-2.5 text-xs text-white/60">
+            <li key={f} className="flex items-center gap-2.5 text-xs text-gray-500 dark:text-white/60">
               <span className="w-1 h-1 rounded-full shrink-0" style={{ background: portal.accent }} />
               {f}
             </li>
@@ -122,11 +122,11 @@ function StatBlock({ stat, active }) {
   const value = useLiveNumber(stat.value, 0, active)
   return (
     <div>
-      <p className="text-lg font-display font-semibold text-white tabular-nums">
+      <p className="text-lg font-display font-semibold text-gray-900 dark:text-white tabular-nums">
         {value}
         {stat.suffix || ''}
       </p>
-      <p className="text-[10px] text-white/35 uppercase tracking-wide mt-0.5">{stat.label}</p>
+      <p className="text-[10px] text-gray-400 dark:text-white/35 uppercase tracking-wide mt-0.5">{stat.label}</p>
     </div>
   )
 }
@@ -137,19 +137,19 @@ export default function ChoosePortal() {
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' })
 
   return (
-    <section ref={sectionRef} className="relative py-24 lg:py-28 bg-athlonix-dark overflow-hidden">
+    <section ref={sectionRef} className="relative pt-6 pb-24 lg:pb-28 bg-[#FAFBFC] dark:bg-athlonix-dark overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="text-center mb-14">
           <span className="text-xs font-medium text-athlonix-blue tracking-widest uppercase mb-4 block">
             Choose Your Portal
           </span>
-          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-semibold text-white">
+          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-semibold text-gray-900 dark:text-white">
             Access Athlenix Based on Your Role
           </h2>
         </div>
 
         <div
-          className="relative glass-panel-strong rounded-2xl overflow-hidden flex flex-col md:flex-row"
+          className="relative rounded-2xl overflow-hidden flex flex-col md:flex-row bg-white/80 dark:bg-[rgba(17,17,24,0.85)] backdrop-blur-2xl border border-gray-200 dark:border-white/[0.08]"
           onMouseLeave={() => setHovered(null)}
         >
           <PortalHalf portalKey="clubs" isWide={hovered === 'clubs'} isHovered={hovered === 'clubs'} onEnter={() => setHovered('clubs')} isInView={isInView} />
@@ -158,14 +158,14 @@ export default function ChoosePortal() {
             <div
               className="absolute top-0 bottom-0 w-px"
               style={{
-                background: `linear-gradient(180deg, transparent, ${hovered ? PORTALS[hovered].accent : '#2A6FD6'}, transparent)`,
-                boxShadow: `0 0 16px ${hovered ? PORTALS[hovered].accent : '#2A6FD6'}`,
+                background: `linear-gradient(180deg, transparent, ${hovered ? PORTALS[hovered].accent : '#00B5FF'}, transparent)`,
+                boxShadow: `0 0 16px ${hovered ? PORTALS[hovered].accent : '#00B5FF'}`,
                 transform: hovered === 'clubs' ? 'translateX(6px)' : hovered === 'insurance' ? 'translateX(-6px)' : 'translateX(0)',
                 transition: 'transform 0.6s cubic-bezier(0.16,1,0.3,1)',
               }}
             />
           </div>
-          <div className="h-px w-full md:hidden bg-white/10" />
+          <div className="h-px w-full md:hidden bg-gray-200 dark:bg-white/10" />
 
           <PortalHalf portalKey="insurance" isWide={hovered === 'insurance'} isHovered={hovered === 'insurance'} onEnter={() => setHovered('insurance')} isInView={isInView} />
         </div>

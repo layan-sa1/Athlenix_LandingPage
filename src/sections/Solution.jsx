@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect, useLayoutEffect } from 'react'
 import { motion } from 'framer-motion'
 import DataSphere from './DataSphere'
+import { useTheme } from '../ThemeContext'
 
 const stages = [
   {
@@ -46,15 +47,17 @@ const stages = [
 ]
 
 function StageRow({ stage, index, active, registerRef }) {
+  const { theme } = useTheme()
+  const inactiveColor = theme === 'dark' ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.15)'
   return (
     <div
       ref={(el) => registerRef?.(index, el)}
-      className="py-10 lg:py-14 border-b border-white/5 last:border-b-0"
+      className="py-10 lg:py-14 border-b border-gray-200 dark:border-white/5 last:border-b-0"
     >
       <div className="flex items-start gap-5">
         <span
           className="font-display text-3xl font-semibold tabular-nums shrink-0 transition-colors duration-500"
-          style={{ color: active ? '#2A6FD6' : 'rgba(255,255,255,0.15)' }}
+          style={{ color: active ? '#00B5FF' : inactiveColor }}
         >
           {String(index + 1).padStart(2, '0')}
         </span>
@@ -62,15 +65,15 @@ function StageRow({ stage, index, active, registerRef }) {
           <span className="text-xs font-medium text-athlonix-blue tracking-widest uppercase mb-2 block">
             {stage.subtitle}
           </span>
-          <h3 className="font-display text-2xl md:text-3xl font-semibold text-white mb-3">
+          <h3 className="font-display text-2xl md:text-3xl font-semibold text-gray-900 dark:text-white mb-3">
             {stage.title}
           </h3>
-          <p className="text-white/50 text-sm leading-relaxed mb-5 max-w-md">
+          <p className="text-gray-500 dark:text-white/50 text-sm leading-relaxed mb-5 max-w-md">
             {stage.description}
           </p>
           <div className="flex items-baseline gap-3">
             <span className="font-display text-3xl font-bold text-athlonix-blue">{stage.stat}</span>
-            <span className="text-xs text-white/40 tracking-wide">{stage.statLabel}</span>
+            <span className="text-xs text-gray-400 dark:text-white/40 tracking-wide">{stage.statLabel}</span>
           </div>
         </div>
       </div>
@@ -159,7 +162,7 @@ export default function Solution() {
   }
 
   return (
-    <section id="solution" className="relative py-24 lg:py-32 bg-athlonix-dark">
+    <section id="solution" className="relative py-24 lg:py-32 bg-[#FAFBFC] dark:bg-athlonix-dark">
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" />
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -173,10 +176,10 @@ export default function Solution() {
           <span className="text-xs font-medium text-athlonix-blue tracking-widest uppercase mb-4 block">
             The Platform
           </span>
-          <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-semibold text-white mb-6">
+          <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-semibold text-gray-900 dark:text-white mb-6">
             From Movement to Decision
           </h2>
-          <p className="text-white/40 text-sm max-w-xl mx-auto leading-relaxed">
+          <p className="text-gray-500 dark:text-white/40 text-sm max-w-xl mx-auto leading-relaxed">
             Five integrated layers that transform raw athlete data into the kind of insight
             that changes seasons — and careers.
           </p>
@@ -213,7 +216,7 @@ export default function Solution() {
                   </div>
                 </div>
                 <div style={{ position: 'absolute', bottom: 24, left: 24, right: 24, display: 'flex', alignItems: 'center', justifyContent: 'space-between', pointerEvents: 'none' }}>
-                  <span className="text-[11px] font-medium text-white/40 tracking-widest uppercase">
+                  <span className="text-[11px] font-medium text-gray-400 dark:text-white/40 tracking-widest uppercase">
                       Solution {String(activeIndex + 1).padStart(2, '0')} / {String(stages.length).padStart(2, '0')}
                     </span>
                     <span className="text-[11px] font-medium text-athlonix-blue tracking-widest uppercase">

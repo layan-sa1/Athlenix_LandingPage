@@ -3,7 +3,7 @@ import { useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 import { LOGO_POINTS } from '../data/logoPoints'
 
-const SIGNATURE_BLUE = '#2A6FD6'
+const SIGNATURE_BLUE = '#00B5FF'
 const DIM_COLOR = '#5A6478'
 const CENTRAL_COUNT = 1501
 const DISPERSE_FRACTION = 0.22
@@ -17,7 +17,7 @@ const LOGO_SCALE = 2.5
 const LOGO_Y_OFFSET = 1.3 // shifts the assembled logo upward so it clears the bottom-anchored headline
 const HOVER_GLOW_RADIUS = 0.4 // world units — small on purpose, so only nearby points light up
 
-function CentralSphere({ phase }) {
+function CentralSphere({ phase, theme }) {
   const pointsRef = useRef(null)
   const materialRef = useRef(null)
   // Real hover position in 3D space (not a global on/off flag) — this is what makes the glow
@@ -56,11 +56,14 @@ function CentralSphere({ phase }) {
     return arr
   }, [])
 
-  const bodyColor = useMemo(() => new THREE.Color(DIM_COLOR), [])
-  const signalColor = useMemo(() => new THREE.Color('#EAF2F8'), [])
-  const correctColor = useMemo(() => new THREE.Color(SIGNATURE_BLUE), [])
-  const gradientDark = useMemo(() => new THREE.Color('#123A6B'), [])
-  const gradientLight = useMemo(() => new THREE.Color('#7FB3F0'), [])
+  const isLight = theme === 'light'
+  // On a light background the dark-mode palette (light-gray body, near-white signal, pale
+  // gradient end) nearly disappears — these stay mid/dark blue across the board instead.
+  const bodyColor = useMemo(() => new THREE.Color(isLight ? '#3A5A8C' : DIM_COLOR), [isLight])
+  const signalColor = useMemo(() => new THREE.Color(isLight ? '#1E4B8C' : '#EAF2F8'), [isLight])
+  const correctColor = useMemo(() => new THREE.Color(isLight ? '#0072B5' : SIGNATURE_BLUE), [isLight])
+  const gradientDark = useMemo(() => new THREE.Color(isLight ? '#0F2E54' : '#123A6B'), [isLight])
+  const gradientLight = useMemo(() => new THREE.Color(isLight ? '#1A5FA8' : '#7FB3F0'), [isLight])
   const tmpColor = useMemo(() => new THREE.Color(), [])
   const tmpV = useMemo(() => new THREE.Vector3(), [])
 
@@ -124,7 +127,7 @@ function CentralSphere({ phase }) {
         // for the same visual richness as a two-tone dot-matrix mark, while staying on-brand.
         const gradT = THREE.MathUtils.clamp((p.logoTarget.x / LOGO_SCALE + 1) / 2, 0, 1)
         tmpColor.copy(gradientDark).lerp(gradientLight, gradT)
-        tmpColor.lerp(new THREE.Color('#FFFFFF'), localGlow * 0.85)
+        tmpColor.lerp(isLight ? new THREE.Color(SIGNATURE_BLUE) : new THREE.Color('#FFFFFF'), localGlow * (isLight ? 1 : 0.85))
       } else {
         tmpColor.copy(bodyColor).lerp(signalColor, mix)
       }
@@ -258,11 +261,11 @@ function CameraRig({ phase }) {
   return null
 }
 
-export default function Hero3DScene({ phase }) {
+export default function Hero3DScene({ phase, theme }) {
   return (
     <>
       <CameraRig phase={phase} />
-      <CentralSphere phase={phase} />
+      <CentralSphere phase={phase} theme={theme} />
       <Satellites phase={phase} />
     </>
   )

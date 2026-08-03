@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" style="background-color: #0A0A0F;">
   <head>
+    <script>
+      // Runs before anything else paints — sets the correct theme class immediately, so there's
+      // no flash of the wrong mode while React boots up. Defaults to dark unless the person has
+      // explicitly chosen light before.
+      (function () {
+        var saved = localStorage.getItem('athlonix-theme');
+        var theme = saved === 'light' ? 'light' : 'dark';
+        if (theme === 'dark') document.documentElement.classList.add('dark');
+        document.documentElement.style.backgroundColor = theme === 'dark' ? '#0A0A0F' : '#FFFFFF';
+      })();
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Athlenix — Every Season Has a Turning Point</title>

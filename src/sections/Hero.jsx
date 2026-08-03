@@ -3,9 +3,12 @@ import { Canvas } from '@react-three/fiber'
 
 import Hero3DScene from './Hero3DScene'
 import { LogoRevealScreen, HeroContentScreen, RewindSweep } from './HeroOverlays'
+import { useTheme } from '../ThemeContext'
 
 // ─── MAIN HERO COMPONENT ───
 export default function Hero({ onComplete }) {
+  const { theme } = useTheme()
+  const vBase = theme === 'dark' ? '10,10,15' : '255,255,255'
   const [phase, setPhase] = useState('freeze')
   const [canvasReady, setCanvasReady] = useState(false)
   const containerRef = useRef()
@@ -70,7 +73,7 @@ export default function Hero({ onComplete }) {
   return (
     <section 
       ref={containerRef}
-      className="relative w-full h-screen min-h-[820px] overflow-hidden bg-athlonix-dark"
+      className="relative w-full h-screen min-h-[820px] overflow-hidden bg-gradient-to-b from-[#FAFBFC] via-[#F8FBFE] to-[#F4F9FD] dark:bg-athlonix-dark dark:bg-none"
     >
       {/* ─── WEBGL CANVAS (pure 3D, no HTML inside) ─── */}
       <div className="absolute inset-0 z-0">
@@ -79,31 +82,23 @@ export default function Hero({ onComplete }) {
           dpr={[1, 1.5]}
           gl={{ 
             antialias: true, 
-            alpha: false,
+            alpha: true,
             powerPreference: 'high-performance',
           }}
-          style={{ background: '#0A0A0F' }}
           onCreated={() => setCanvasReady(true)}
         >
-          <Hero3DScene phase={phase} />
+          <Hero3DScene phase={phase} theme={theme} />
         </Canvas>
       </div>
 
       {/* ─── SCREEN-SPACE OVERLAYS (CSS positioned, pixel-perfect) ─── */}
 
-      {/* Dark vignette */}
-      <div 
-        className="absolute inset-0 z-10 pointer-events-none"
-        style={{
-          background: 'radial-gradient(ellipse at center, transparent 0%, rgba(10,10,15,0.4) 50%, rgba(10,10,15,0.9) 100%)'
-        }}
-      />
-
-      {/* Bottom gradient for text */}
+      {/* Bottom gradient for text — no full radial vignette, just enough darkening at the bottom
+          for the headline to stay readable */}
       <div 
         className="absolute bottom-0 left-0 right-0 h-1/2 z-10 pointer-events-none"
         style={{
-          background: 'linear-gradient(to top, rgba(10,10,15,0.95) 0%, rgba(10,10,15,0.6) 40%, transparent 100%)'
+          background: `linear-gradient(to top, rgba(${vBase},0.85) 0%, rgba(${vBase},0.4) 30%, transparent 65%)`
         }}
       />
 
@@ -119,9 +114,13 @@ export default function Hero({ onComplete }) {
           className="font-display font-extrabold tracking-[0.2em] uppercase"
           style={{
             fontSize: '38px',
-            color: '#EAF2F8',
+            color: theme === 'light' ? '#0D2E5C' : '#EAF2F8',
             opacity: showCrossGlow ? 1 : 0,
-            filter: showCrossGlow ? 'drop-shadow(0 0 14px #7FB3F0) drop-shadow(0 0 30px #2A6FD6)' : 'none',
+            filter: showCrossGlow
+              ? theme === 'light'
+                ? 'drop-shadow(0 0 10px rgba(0,181,255,0.35))'
+                : 'drop-shadow(0 0 14px #7FB3F0) drop-shadow(0 0 30px #00B5FF)'
+              : 'none',
             transition: 'opacity 0.35s ease',
           }}
         >
@@ -142,7 +141,7 @@ export default function Hero({ onComplete }) {
 
       {/* Loading state — shown until canvas is ready. Plain dark background, no icon, to match
           the CSS hero and avoid any visual "blip" before the sequence begins. */}
-      {!canvasReady && <div className="absolute inset-0 z-30 bg-athlonix-dark" />}
+      {!canvasReady && <div className="absolute inset-0 z-30 bg-[#FAFBFC] dark:bg-athlonix-dark" />}
     </section>
   )
 }

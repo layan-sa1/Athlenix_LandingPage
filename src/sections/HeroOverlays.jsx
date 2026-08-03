@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react'
+import { useTheme } from '../ThemeContext'
 
 // These overlays are pure DOM/CSS — no WebGL, no dependency on the 3D scene. Shared between
 // the WebGL Hero and the CSS-only fallback Hero so both tell the identical logo/text/dashboard
@@ -57,7 +58,7 @@ function HeroTextScreen({ visible }) {
   return (
     <div className="pointer-events-auto max-w-md min-w-0" style={{ opacity: progress }}>
       <h2
-        className="font-display text-4xl md:text-5xl lg:text-5xl font-extrabold text-white leading-tight mb-4"
+        className="font-display text-4xl md:text-5xl lg:text-5xl font-extrabold text-[#0B2A4A] dark:text-white leading-tight mb-4"
         style={{
           transform: `translateY(${(1 - progress) * 40}px)`,
           transition: 'none',
@@ -66,7 +67,7 @@ function HeroTextScreen({ visible }) {
         <span className="whitespace-nowrap">The Future Changes</span> <br />Before It Happens
       </h2>
       <p
-        className="text-sm md:text-base text-white/50 mb-8 leading-relaxed max-w-md"
+        className="text-sm md:text-base text-gray-600 dark:text-white/50 mb-8 leading-relaxed max-w-md"
         style={{
           transform: `translateY(${(1 - progress) * 30}px)`,
           opacity: progress * 0.9,
@@ -92,7 +93,7 @@ function HeroTextScreen({ visible }) {
         </a>
         <a
           href="#platform"
-          className="px-6 py-2.5 text-sm font-medium text-white/70 border border-white/15 rounded-full hover:border-white/30 hover:text-white transition-all duration-300"
+          className="px-6 py-2.5 text-sm font-medium text-gray-600 dark:text-white/70 border border-gray-300 dark:border-white/15 rounded-full hover:border-gray-400 dark:hover:border-white/30 hover:text-gray-900 dark:hover:text-white transition-all duration-300"
         >
           Explore What We Offer
         </a>
@@ -206,7 +207,7 @@ function NetworkFrameIntro({ playing, hovered }) {
         height={FRAME_H - 1.5}
         rx={FRAME_R}
         fill="none"
-        stroke="#2A6FD6"
+        stroke="#00B5FF"
         strokeWidth={hovered ? 2 : 1.5}
         strokeDasharray={totalPerimeter}
         strokeDashoffset={playing ? 0 : totalPerimeter}
@@ -244,6 +245,7 @@ function NetworkFrameIntro({ playing, hovered }) {
 }
 
 function MiniDashboardScreen({ visible }) {
+  const { theme } = useTheme()
   const [counts, setCounts] = useState({ risk: 0, acwr: 0, injury: 0, premium: 0 })
   const [progress, setProgress] = useState(0)
   const [frameOn, setFrameOn] = useState(false)
@@ -324,11 +326,15 @@ function MiniDashboardScreen({ visible }) {
         >
           <div
             ref={cardRef}
-            className="glass-panel-strong rounded-2xl p-4 w-full relative overflow-hidden shadow-2xl shadow-black/40"
+            className="glass-panel-strong rounded-2xl p-4 w-full relative overflow-hidden"
             style={{
               transform: `perspective(700px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(${hovered ? 1.02 : 1})`,
               transition: hovered ? 'transform 0.1s ease-out' : 'transform 0.5s cubic-bezier(0.16,1,0.3,1)',
               transformStyle: 'preserve-3d',
+              boxShadow: theme === 'light'
+                ? '0 30px 60px -20px rgba(15,23,42,0.18), 0 0 40px -10px rgba(0,181,255,0.25)'
+                : '0 25px 50px -12px rgba(0,0,0,0.4)',
+              border: theme === 'light' ? '1px solid rgba(0,181,255,0.15)' : undefined,
             }}
           >
             {/* a light sheen that tracks the cursor — the single detail that makes the card feel
@@ -363,13 +369,13 @@ function MiniDashboardScreen({ visible }) {
             <svg viewBox="0 0 300 100" className="w-full h-full overflow-visible" preserveAspectRatio="none">
               <defs>
                 <linearGradient id="timelineGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#2A6FD6" stopOpacity="0.25" />
-                  <stop offset="100%" stopColor="#2A6FD6" stopOpacity="0" />
+                  <stop offset="0%" stopColor="#00B5FF" stopOpacity="0.25" />
+                  <stop offset="100%" stopColor="#00B5FF" stopOpacity="0" />
                 </linearGradient>
                 <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
                   <stop offset="0%" stopColor="#4B8FE8" stopOpacity="0.2" />
-                  <stop offset="50%" stopColor="#2A6FD6" />
-                  <stop offset="100%" stopColor="#2A6FD6" stopOpacity="0.8" />
+                  <stop offset="50%" stopColor="#00B5FF" />
+                  <stop offset="100%" stopColor="#00B5FF" stopOpacity="0.8" />
                 </linearGradient>
                 <filter id="glow">
                   <feGaussianBlur stdDeviation="1.5" result="coloredBlur" />
@@ -383,11 +389,11 @@ function MiniDashboardScreen({ visible }) {
               <line x1="0" y1="50" x2="300" y2="50" stroke="rgba(255,255,255,0.03)" strokeWidth="1" />
               <path d="M0,75 C40,75 70,35 120,45 C170,55 190,80 220,60 C250,40 270,25 300,30 L300,100 L0,100 Z" fill="url(#timelineGrad)" />
               <path d="M0,75 C40,75 70,35 120,45 C170,55 190,80 220,60" fill="none" stroke="url(#lineGrad)" strokeWidth="1.5" strokeLinecap="round" />
-              <path d="M220,60 C250,40 270,25 300,30" fill="none" stroke="#2A6FD6" strokeWidth="1.5" strokeDasharray="3 4" strokeLinecap="round" opacity="0.8" />
+              <path d="M220,60 C250,40 270,25 300,30" fill="none" stroke="#00B5FF" strokeWidth="1.5" strokeDasharray="3 4" strokeLinecap="round" opacity="0.8" />
 
               <g transform="translate(250, 40)">
                 {/* the live "ping" — kept as-is, it already reads well */}
-                <circle cx="0" cy="0" r="10" fill="none" stroke="#2A6FD6" strokeWidth="1" opacity="0.3">
+                <circle cx="0" cy="0" r="10" fill="none" stroke="#00B5FF" strokeWidth="1" opacity="0.3">
                   <animate attributeName="r" values="2;12;2" dur="2.5s" repeatCount="indefinite" />
                   <animate attributeName="opacity" values="0.6;0;0.6" dur="2.5s" repeatCount="indefinite" />
                 </circle>

@@ -12,7 +12,7 @@ const Logo = ({ isScrolled }) => (
     <span
       className="font-display font-black uppercase overflow-hidden inline-block leading-none text-[24px] md:text-[27px] mb-[-4.5px] md:mb-[-5.5px]"
       style={{
-        color: '#2A6FD6',
+        color: '#00B5FF',
         maxWidth: isScrolled ? '0px' : '160px',
         marginLeft: isScrolled ? '0px' : '2px',
         opacity: isScrolled ? 0 : 1,
@@ -28,7 +28,7 @@ const Logo = ({ isScrolled }) => (
         height: '6px',
         marginLeft: '3px',
         marginBottom: '0px',
-        background: '#2A6FD6',
+        background: '#00B5FF',
         transition: 'margin-left 0.3s ease',
       }}
     />
@@ -83,7 +83,7 @@ export default function Navbar({ scrollY }) {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-700 ease-athlonix border-b ${
-        isScrolled ? 'bg-athlonix-dark/90 backdrop-blur-xl' : 'bg-transparent'
+        isScrolled ? 'bg-white/90 dark:bg-athlonix-dark/90 backdrop-blur-xl' : 'bg-transparent'
       }`}
       style={{
         borderColor: isScrolled ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0)',
@@ -106,7 +106,7 @@ export default function Navbar({ scrollY }) {
               >
                 <a
                   href={link.href}
-                  className="flex items-center gap-1 text-sm text-white/60 hover:text-white transition-colors duration-300 tracking-wide py-2"
+                  className="flex items-center gap-1 text-sm text-gray-600 dark:text-white/60 hover:text-gray-900 dark:hover:text-white transition-colors duration-300 tracking-wide py-2"
                 >
                   {link.label}
                   <ChevronDown
@@ -126,15 +126,15 @@ export default function Navbar({ scrollY }) {
                     transform: `translateX(-50%) translateY(${openMenu === i ? 0 : -6}px)`,
                   }}
                 >
-                  <div className="w-64 rounded-xl border border-white/10 bg-athlonix-dark/95 backdrop-blur-xl shadow-2xl overflow-hidden">
+                  <div className="w-64 rounded-xl border border-gray-200 dark:border-white/10 bg-white/95 dark:bg-athlonix-dark/95 backdrop-blur-xl shadow-2xl overflow-hidden">
                     {link.menu.map((item) => (
                       <a
                         key={item.label}
                         href={link.href}
-                        className="block px-4 py-3 hover:bg-white/5 transition-colors duration-200 border-b border-white/5 last:border-b-0"
+                        className="block px-4 py-3 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors duration-200 border-b border-gray-100 dark:border-white/5 last:border-b-0"
                       >
-                        <p className="text-sm text-white/90">{item.label}</p>
-                        <p className="text-[11px] text-white/40 mt-0.5">{item.desc}</p>
+                        <p className="text-sm text-gray-900 dark:text-white/90">{item.label}</p>
+                        <p className="text-[11px] text-gray-500 dark:text-white/40 mt-0.5">{item.desc}</p>
                       </a>
                     ))}
                   </div>
@@ -146,13 +146,13 @@ export default function Navbar({ scrollY }) {
           <div className="hidden md:flex items-center justify-end gap-3">
             <Link
               to="/control-center"
-              className="px-4 py-2 text-sm font-medium text-white/60 hover:text-white transition-colors duration-300 whitespace-nowrap"
+              className="px-4 py-2 text-sm font-medium text-gray-600 dark:text-white/60 hover:text-gray-900 dark:hover:text-white transition-colors duration-300 whitespace-nowrap"
             >
               Control Center
             </Link>
             <a
               href="#demo"
-              className="px-5 py-2 text-sm font-medium bg-athlonix-blue/10 text-athlonix-blue border border-athlonix-blue/30 rounded-full hover:bg-athlonix-blue/20 transition-all duration-300"
+              className="px-5 py-2 text-sm font-medium bg-athlonix-blue/10 text-athlonix-blueText dark:text-athlonix-blue border border-athlonix-blueText/30 dark:border-athlonix-blue/30 rounded-full hover:bg-athlonix-blue/20 transition-all duration-300"
             >
               Request Demo
             </a>
@@ -173,7 +173,7 @@ export default function Navbar({ scrollY }) {
             <a
               key={link.label}
               href={link.href}
-              className="block text-white/70 hover:text-white transition-colors"
+              className="block text-gray-700 dark:text-white/70 hover:text-gray-900 dark:hover:text-white transition-colors"
               onClick={() => setMobileOpen(false)}
             >
               {link.label}

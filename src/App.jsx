@@ -9,6 +9,7 @@ import DashboardPreview from './sections/DashboardPreview'
 import ChoosePortal from './sections/ChoosePortal'
 import Footer from './sections/Footer'
 import ControlCenter from './pages/ControlCenter'
+import { ThemeProvider } from './ThemeContext'
 
 // Wraps each major section independently — without this, an uncaught error anywhere (even in
 // just one section, like the Hero's animation) takes down React's entire render tree, which is
@@ -45,13 +46,16 @@ function LandingPage() {
   const handleHeroComplete = useCallback(() => setHeroComplete(true), [])
 
   return (
-    <div className="min-h-screen bg-athlonix-dark">
+    <div className="min-h-screen bg-[#FAFBFC] dark:bg-athlonix-dark">
       <Navbar scrollY={scrollY} />
       <SectionBoundary name="Hero">
         <HeroSwitch onComplete={handleHeroComplete} />
       </SectionBoundary>
       <SectionBoundary name="TrustedBy">
         <TrustedBy />
+      </SectionBoundary>
+      <SectionBoundary name="ChoosePortal">
+        <ChoosePortal />
       </SectionBoundary>
       <SectionBoundary name="Solution">
         <Solution />
@@ -62,9 +66,6 @@ function LandingPage() {
       <SectionBoundary name="DashboardPreview">
         <DashboardPreview />
       </SectionBoundary>
-      <SectionBoundary name="ChoosePortal">
-        <ChoosePortal />
-      </SectionBoundary>
       <Footer />
     </div>
   )
@@ -72,12 +73,14 @@ function LandingPage() {
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/control-center" element={<ControlCenter />} />
-      </Routes>
-    </BrowserRouter>
+    <ThemeProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/control-center" element={<ControlCenter />} />
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
   )
 }
 
