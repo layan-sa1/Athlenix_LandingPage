@@ -5,7 +5,7 @@ import { LOGO_POINTS } from '../data/logoPoints'
 
 const SIGNATURE_BLUE = '#00B5FF'
 const DIM_COLOR = '#5A6478'
-const CENTRAL_COUNT = 1501
+const CENTRAL_COUNT = 3400
 const DISPERSE_FRACTION = 0.22
 const SATELLITE_COUNT = 4
 
@@ -33,14 +33,19 @@ function CentralSphere({ phase, theme }) {
     if (phase !== 'settle') settleStartRef.current = null
   }, [phase])
 
+  const isLight = theme === 'light'
+  // Dark mode keeps its original density (1501) exactly as it was — only light mode gets the
+  // denser point cloud (up to CENTRAL_COUNT/3400) it needed for clarity against a white background.
+  const activeCount = isLight ? CENTRAL_COUNT : 1501
+
   const positions = useMemo(() => new Float32Array(CENTRAL_COUNT * 3), [])
   const colors = useMemo(() => new Float32Array(CENTRAL_COUNT * 3), [])
 
   const points = useMemo(() => {
     const arr = []
     const goldenAngle = Math.PI * (3 - Math.sqrt(5))
-    for (let i = 0; i < CENTRAL_COUNT; i++) {
-      const y = 1 - (i / (CENTRAL_COUNT - 1)) * 2
+    for (let i = 0; i < activeCount; i++) {
+      const y = 1 - (i / (activeCount - 1)) * 2
       const r = Math.sqrt(1 - y * y)
       const theta = goldenAngle * i
       const home = new THREE.Vector3(Math.cos(theta) * r, y, Math.sin(theta) * r).multiplyScalar(1.6)
@@ -54,16 +59,14 @@ function CentralSphere({ phase, theme }) {
       })
     }
     return arr
-  }, [])
-
-  const isLight = theme === 'light'
+  }, [activeCount])
   // On a light background the dark-mode palette (light-gray body, near-white signal, pale
   // gradient end) nearly disappears — these stay mid/dark blue across the board instead.
-  const bodyColor = useMemo(() => new THREE.Color(isLight ? '#3A5A8C' : DIM_COLOR), [isLight])
-  const signalColor = useMemo(() => new THREE.Color(isLight ? '#1E4B8C' : '#EAF2F8'), [isLight])
+  const bodyColor = useMemo(() => new THREE.Color(isLight ? '#264A73' : DIM_COLOR), [isLight])
+  const signalColor = useMemo(() => new THREE.Color(isLight ? '#0B3A6B' : '#EAF2F8'), [isLight])
   const correctColor = useMemo(() => new THREE.Color(isLight ? '#0072B5' : SIGNATURE_BLUE), [isLight])
-  const gradientDark = useMemo(() => new THREE.Color(isLight ? '#0F2E54' : '#123A6B'), [isLight])
-  const gradientLight = useMemo(() => new THREE.Color(isLight ? '#1A5FA8' : '#7FB3F0'), [isLight])
+  const gradientDark = useMemo(() => new THREE.Color(isLight ? '#051A34' : '#123A6B'), [isLight])
+  const gradientLight = useMemo(() => new THREE.Color(isLight ? '#0B4480' : '#7FB3F0'), [isLight])
   const tmpColor = useMemo(() => new THREE.Color(), [])
   const tmpV = useMemo(() => new THREE.Vector3(), [])
 
@@ -82,7 +85,7 @@ function CentralSphere({ phase, theme }) {
     }
 
     if (materialRef.current) {
-      materialRef.current.size = 0.045
+      materialRef.current.size = isLight ? 0.052 : 0.045
     }
 
     for (let i = 0; i < points.length; i++) {
@@ -168,8 +171,8 @@ function CentralSphere({ phase, theme }) {
       </mesh>
       <points ref={pointsRef}>
         <bufferGeometry>
-          <bufferAttribute attach="attributes-position" count={CENTRAL_COUNT} array={positions} itemSize={3} />
-          <bufferAttribute attach="attributes-color" count={CENTRAL_COUNT} array={colors} itemSize={3} />
+          <bufferAttribute attach="attributes-position" count={activeCount} array={positions} itemSize={3} />
+          <bufferAttribute attach="attributes-color" count={activeCount} array={colors} itemSize={3} />
         </bufferGeometry>
         <pointsMaterial ref={materialRef} size={0.045} vertexColors transparent opacity={0.9} sizeAttenuation depthWrite={false} blending={THREE.AdditiveBlending} />
       </points>

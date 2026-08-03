@@ -162,7 +162,7 @@ export default function Solution() {
   }
 
   return (
-    <section id="solution" className="relative py-24 lg:py-32 bg-[#FAFBFC] dark:bg-athlonix-dark">
+    <section id="solution" className="relative py-24 lg:py-32 bg-[#F2F2F4] dark:bg-athlonix-dark">
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" />
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8">

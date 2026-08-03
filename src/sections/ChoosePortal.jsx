@@ -137,7 +137,7 @@ export default function ChoosePortal() {
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' })
 
   return (
-    <section ref={sectionRef} className="relative pt-6 pb-24 lg:pb-28 bg-[#FAFBFC] dark:bg-athlonix-dark overflow-hidden">
+    <section ref={sectionRef} className="relative pt-6 pb-24 lg:pb-28 bg-[#F2F2F4] dark:bg-athlonix-dark overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="text-center mb-14">
           <span className="text-xs font-medium text-athlonix-blue tracking-widest uppercase mb-4 block">

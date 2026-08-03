@@ -125,7 +125,7 @@ export default function Stakeholders() {
   const cardsY = useTransform(p, [T_IMAGE_GONE, T_CARDS_IN], [24, 0])
 
   return (
-    <section id="stakeholders" ref={containerRef} className="relative bg-[#FAFBFC] dark:bg-athlonix-dark" style={{ height: '260vh' }}>
+    <section id="stakeholders" ref={containerRef} className="relative bg-[#F2F2F4] dark:bg-athlonix-dark" style={{ height: '260vh' }}>
       <div className="sticky top-0 h-screen overflow-hidden">
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/5 to-transparent z-20" />
 

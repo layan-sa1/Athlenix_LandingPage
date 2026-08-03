@@ -46,7 +46,7 @@ function LandingPage() {
   const handleHeroComplete = useCallback(() => setHeroComplete(true), [])
 
   return (
-    <div className="min-h-screen bg-[#FAFBFC] dark:bg-athlonix-dark">
+    <div className="min-h-screen bg-[#F2F2F4] dark:bg-athlonix-dark">
       <Navbar scrollY={scrollY} />
       <SectionBoundary name="Hero">
         <HeroSwitch onComplete={handleHeroComplete} />

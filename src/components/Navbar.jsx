@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { Menu, X, ChevronDown } from 'lucide-react'
+import { useTheme } from '../ThemeContext'
 
-const Logo = ({ isScrolled }) => (
+const Logo = ({ isScrolled }) => {
+  const { theme } = useTheme()
+  return (
   <div className="flex items-end overflow-hidden">
-    <img src="/brand/logo-mark-ath.png" alt="" className="h-[19px] md:h-[21px] w-auto shrink-0" />
+    <img src={theme === 'light' ? '/brand/logo-mark-ath-light.png' : '/brand/logo-mark-ath.png'} alt="" className="h-[19px] md:h-[21px] w-auto shrink-0" />
     {/* "LENIX" — the mark's own L (merged into the H's leg) is too subtle to read on its own.
         items-end + marginBottom lines the text's visual baseline up with the mark's own bottom
         edge (a font's line-box reserves descender space even when the word has no descenders,
@@ -12,7 +15,7 @@ const Logo = ({ isScrolled }) => (
     <span
       className="font-display font-black uppercase overflow-hidden inline-block leading-none text-[24px] md:text-[27px] mb-[-4.5px] md:mb-[-5.5px]"
       style={{
-        color: '#00B5FF',
+        color: theme === 'light' ? '#0369A1' : '#00B5FF',
         maxWidth: isScrolled ? '0px' : '160px',
         marginLeft: isScrolled ? '0px' : '2px',
         opacity: isScrolled ? 0 : 1,
@@ -28,12 +31,13 @@ const Logo = ({ isScrolled }) => (
         height: '6px',
         marginLeft: '3px',
         marginBottom: '0px',
-        background: '#00B5FF',
+        background: theme === 'light' ? '#0369A1' : '#00B5FF',
         transition: 'margin-left 0.3s ease',
       }}
     />
   </div>
-)
+  )
+}
 
 const navLinks = [
   {

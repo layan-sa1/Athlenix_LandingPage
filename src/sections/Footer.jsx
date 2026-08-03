@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Linkedin, Twitter, Github, ArrowUpRight, BadgeCheck, Users, ShieldCheck, Wallet } from 'lucide-react'
+import { useTheme } from '../ThemeContext'
 
 const LINK_GROUPS = [
   {
@@ -36,8 +37,9 @@ const SOCIALS = [
 ]
 
 export default function Footer() {
+  const { theme } = useTheme()
   return (
-    <footer className="relative bg-[#F2F6FA] dark:bg-athlonix-dark overflow-hidden">
+    <footer className="relative bg-[#E9E9EC] dark:bg-athlonix-dark overflow-hidden">
       {/* soft blue-tinted transition right before the footer starts, so it doesn't just cut
           from the previous section — a glass-like hand-off instead of a hard edge */}
       <div className="absolute -top-24 left-0 right-0 h-24 bg-gradient-to-b from-transparent to-athlonix-blue/[0.03] dark:to-athlonix-blue/[0.06] pointer-events-none" />
@@ -48,7 +50,11 @@ export default function Footer() {
         {/* CTA — a self-contained card with its own weight, not a text line with a button
             floating next to it. This is what actually earns "focus" on a busy last section. */}
         <div className="pt-16 lg:pt-20">
-          <div className="rounded-3xl border border-[rgba(15,23,42,0.08)] dark:border-white/10 bg-white dark:bg-white/[0.03] shadow-[0_20px_60px_-30px_rgba(15,23,42,0.15)] dark:shadow-none px-8 py-10 md:px-12 md:py-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+          <div className="relative rounded-3xl border border-[rgba(15,23,42,0.08)] dark:border-white/10 bg-white dark:bg-white/[0.03] shadow-[0_20px_60px_-30px_rgba(15,23,42,0.15)] dark:shadow-none px-8 py-10 md:px-12 md:py-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-8 overflow-hidden">
+            {/* a thin brand-colored edge along the top — the one detail that ties this card to
+                the rest of the page's accent instead of reading as a plain generic white box */}
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-athlonix-blue/60 via-athlonix-blue to-athlonix-blue/60" />
+            <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-athlonix-blue/[0.08] blur-3xl pointer-events-none" />
             <div>
               <p className="text-xs font-medium text-athlonix-blueText dark:text-athlonix-blue tracking-widest uppercase mb-3">
                 Ready when you are
@@ -78,9 +84,11 @@ export default function Footer() {
             return (
               <div
                 key={s.label}
-                className="rounded-2xl border border-[rgba(15,23,42,0.06)] dark:border-white/5 bg-white/60 dark:bg-white/[0.02] px-5 py-5"
+                className="group rounded-2xl border border-[rgba(15,23,42,0.06)] dark:border-white/5 bg-white/60 dark:bg-white/[0.02] px-5 py-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_-16px_rgba(3,105,161,0.25)] hover:border-athlonix-blue/20"
               >
-                <Icon size={16} className="text-athlonix-blueText dark:text-athlonix-blue mb-3" />
+                <div className="w-9 h-9 rounded-full bg-athlonix-blue/10 border border-athlonix-blue/20 flex items-center justify-center mb-3 transition-transform duration-300 group-hover:scale-110">
+                  <Icon size={15} className="text-athlonix-blueText dark:text-athlonix-blue" />
+                </div>
                 <p className="font-display text-2xl font-bold text-[#0F172A] dark:text-white tabular-nums">{s.value}</p>
                 <p className="text-xs text-[#475569] dark:text-white/40 mt-1">{s.label}</p>
               </div>
@@ -122,6 +130,10 @@ export default function Footer() {
                       className="group inline-flex items-center gap-1 text-sm text-[#475569] dark:text-white/40 hover:text-athlonix-blueText dark:hover:text-white transition-colors duration-300"
                     >
                       <span className="transition-transform duration-300 group-hover:translate-x-1">{item}</span>
+                      <ArrowUpRight
+                        size={12}
+                        className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300"
+                      />
                     </a>
                   </li>
                 ))}
@@ -132,7 +144,15 @@ export default function Footer() {
 
         {/* bottom bar */}
         <div className="py-6 border-t border-[rgba(15,23,42,0.08)] dark:border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-[#94A3B8] dark:text-white/25">© 2026 Athlenix. All rights reserved.</p>
+          <div className="flex items-center gap-5">
+            <p className="text-xs text-[#94A3B8] dark:text-white/25">© 2026 Athlenix. All rights reserved.</p>
+            {/* ties the footer's language back to the "Live" badges used across every dashboard
+                on the site, instead of a purely decorative status dot */}
+            <span className="flex items-center gap-1.5 text-xs text-[#94A3B8] dark:text-white/25">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              All systems operational
+            </span>
+          </div>
           <div className="flex items-center gap-6">
             {LEGAL_LINKS.map((l) => (
               <a key={l} href="#" className="text-xs text-[#94A3B8] dark:text-white/25 hover:text-athlonix-blueText dark:hover:text-white transition-colors duration-300">
@@ -140,6 +160,38 @@ export default function Footer() {
               </a>
             ))}
           </div>
+        </div>
+
+        {/* the wordmark, back — but as a thin OUTLINE only (no fill), far below the content and
+            near-invisible in opacity. This is the LangChain approach specifically, not the solid
+            heavy version pulled earlier: stroke-only text reads as background texture, not as a
+            second competing brand statement next to the Hero's own dotted "ATH". */}
+        <div className="relative overflow-hidden h-[90px] md:h-[140px] pointer-events-none select-none -mx-6 lg:-mx-8">
+          <svg
+            viewBox="0 0 800 140"
+            className="absolute left-1/2 -translate-x-1/2 top-0 w-full max-w-[1400px] h-full"
+            preserveAspectRatio="xMidYMin meet"
+          >
+            <text
+              x="400"
+              y="120"
+              textAnchor="middle"
+              fontFamily="Poppins, sans-serif"
+              fontWeight="800"
+              fontSize="130"
+              letterSpacing="4"
+              fill="none"
+              stroke={theme === 'light' ? '#0369A1' : '#00B5FF'}
+              strokeWidth="1.5"
+              style={{
+                animation: 'wordmark-glow 4s ease-in-out infinite',
+                '--wordmark-opacity-min': theme === 'light' ? 0.22 : 0.4,
+                '--wordmark-opacity-max': theme === 'light' ? 0.42 : 0.65,
+              }}
+            >
+              ATHLENIX
+            </text>
+          </svg>
         </div>
       </div>
 

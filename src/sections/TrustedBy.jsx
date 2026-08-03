@@ -18,7 +18,7 @@ export default function TrustedBy() {
   const bgHex = theme === 'dark' ? '#0A0A0F' : '#FFFFFF'
 
   return (
-    <section className="relative py-10 lg:py-12 bg-[#FAFBFC] dark:bg-athlonix-dark border-y border-gray-200 dark:border-white/5 overflow-hidden">
+    <section className="relative py-10 lg:py-12 bg-[#F2F2F4] dark:bg-athlonix-dark border-y border-gray-200 dark:border-white/5 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-8 mb-6">
         <p className="text-center text-[11px] font-medium text-gray-400 dark:text-white/30 tracking-[0.3em] uppercase">
           Trusted By Leading Sports Organizations

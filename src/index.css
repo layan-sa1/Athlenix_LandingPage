@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* the ONE brand blue, as an RGB triplet so Tailwind's <alpha-value> opacity modifiers
+     (bg-athlonix-blue/10, border-athlonix-blue/30, etc.) keep working correctly */
+  --athlonix-blue-rgb: 3 105 161; /* #0369A1 — light mode default: dark enough to read on white */
+}
+.dark {
+  --athlonix-blue-rgb: 0 181 255; /* #00B5FF — the bright reference-site cyan, dark mode only */
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -95,6 +104,11 @@
 @keyframes pulse-glow {
   0%, 100% { box-shadow: 0 0 20px rgba(42, 111, 214, 0.15); }
   50% { box-shadow: 0 0 40px rgba(42, 111, 214, 0.3); }
+}
+
+@keyframes wordmark-glow {
+  0%, 100% { stroke-opacity: var(--wordmark-opacity-min, 0.3); filter: drop-shadow(0 0 0px currentColor); }
+  50% { stroke-opacity: var(--wordmark-opacity-max, 0.6); filter: drop-shadow(0 0 6px currentColor); }
 }
 
 @keyframes rewind-sweep {

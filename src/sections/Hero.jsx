@@ -73,7 +73,7 @@ export default function Hero({ onComplete }) {
   return (
     <section 
       ref={containerRef}
-      className="relative w-full h-screen min-h-[820px] overflow-hidden bg-gradient-to-b from-[#FAFBFC] via-[#F8FBFE] to-[#F4F9FD] dark:bg-athlonix-dark dark:bg-none"
+      className="relative w-full h-screen min-h-[820px] overflow-hidden bg-gradient-to-b from-[#F2F2F4] via-[#ECECEE] to-[#E7E7E9] dark:bg-athlonix-dark dark:bg-none"
     >
       {/* ─── WEBGL CANVAS (pure 3D, no HTML inside) ─── */}
       <div className="absolute inset-0 z-0">
@@ -114,7 +114,7 @@ export default function Hero({ onComplete }) {
           className="font-display font-extrabold tracking-[0.2em] uppercase"
           style={{
             fontSize: '38px',
-            color: theme === 'light' ? '#0D2E5C' : '#EAF2F8',
+            color: theme === 'light' ? '#0369A1' : '#EAF2F8',
             opacity: showCrossGlow ? 1 : 0,
             filter: showCrossGlow
               ? theme === 'light'
@@ -141,7 +141,7 @@ export default function Hero({ onComplete }) {
 
       {/* Loading state — shown until canvas is ready. Plain dark background, no icon, to match
           the CSS hero and avoid any visual "blip" before the sequence begins. */}
-      {!canvasReady && <div className="absolute inset-0 z-30 bg-[#FAFBFC] dark:bg-athlonix-dark" />}
+      {!canvasReady && <div className="absolute inset-0 z-30 bg-[#F2F2F4] dark:bg-athlonix-dark" />}
     </section>
   )
 }
