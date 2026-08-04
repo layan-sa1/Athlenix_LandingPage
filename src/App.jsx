@@ -9,17 +9,11 @@ import DashboardPreview from './sections/DashboardPreview'
 import ChoosePortal from './sections/ChoosePortal'
 import Footer from './sections/Footer'
 import ControlCenter from './pages/ControlCenter'
-import InsuranceLayout from "./pages/InsurancePlatform/InsuranceLayout";
 import { ThemeProvider } from './ThemeContext'
-import Dashboard from "./pages/InsurancePlatform";
-import Policies from "./pages/InsurancePlatform/policies";
-import Claims from "./pages/InsurancePlatform/claims";
-import RiskEngine from "./pages/InsurancePlatform/riskEngine";
-import Reports from "./pages/InsurancePlatform/reports";
+
 // Wraps each major section independently — without this, an uncaught error anywhere (even in
 // just one section, like the Hero's animation) takes down React's entire render tree, which is
 // what was turning the whole page black instead of just the one broken part.
-
 class SectionBoundary extends React.Component {
   constructor(props) {
     super(props)
@@ -82,18 +76,9 @@ function App() {
     <ThemeProvider>
       <BrowserRouter>
         <Routes>
-  <Route path="/" element={<LandingPage />} />
-
-  <Route path="/control-center" element={<ControlCenter />} />
-
-  <Route path="/insurance" element={<InsuranceLayout />}>
-    <Route index element={<Dashboard />} />
-    <Route path="policies" element={<Policies />} />
-    <Route path="claims" element={<Claims />} />
-    <Route path="risk-engine" element={<RiskEngine />} />
-    <Route path="reports" element={<Reports />} />
-  </Route>
-</Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/control-center" element={<ControlCenter />} />
+        </Routes>
       </BrowserRouter>
     </ThemeProvider>
   )

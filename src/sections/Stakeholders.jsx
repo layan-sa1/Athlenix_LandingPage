@@ -65,12 +65,14 @@ function StakeholderCard({ s }) {
         <div className="relative shrink-0 overflow-hidden transition-all duration-500 ease-athlonix" style={{ width: hovered ? '38%' : '100%' }}>
           <img src={s.image} alt={s.title} className="absolute inset-0 w-full h-full object-cover" loading="lazy" style={{ transform: hovered ? 'scale(1.08)' : 'scale(1)', transition: 'transform 0.5s ease' }} />
           <div className="absolute inset-0 bg-gradient-to-t from-athlonix-dark/70 via-athlonix-dark/10 to-transparent" />
-          <div className="absolute bottom-0 left-0 right-0 p-4">
-            <div className="w-8 h-8 rounded-lg bg-white/70 dark:bg-athlonix-dark/60 backdrop-blur border border-gray-200 dark:border-white/10 flex items-center justify-center mb-2">
+          <div className="absolute bottom-0 left-0 right-0 p-4 flex flex-col gap-2">
+            <div className="w-8 h-8 rounded-lg bg-white/70 dark:bg-athlonix-dark/60 backdrop-blur border border-gray-200 dark:border-white/10 flex items-center justify-center shrink-0">
               <Icon size={14} className="text-athlonix-blue" />
             </div>
-            <h3 className="font-display text-base font-semibold text-gray-900 dark:text-white leading-tight">{s.title}</h3>
-            {!hovered && <p className="text-xs text-gray-500 dark:text-white/50 mt-1.5 leading-relaxed">{s.caption}</p>}
+            <div>
+              <h3 className="font-display text-base font-semibold text-white leading-tight">{s.title}</h3>
+              {!hovered && <p className="text-xs text-white/60 mt-1.5 leading-relaxed">{s.caption}</p>}
+            </div>
           </div>
         </div>
 

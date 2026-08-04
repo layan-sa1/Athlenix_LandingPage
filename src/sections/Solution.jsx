@@ -57,7 +57,7 @@ function StageRow({ stage, index, active, registerRef }) {
       <div className="flex items-start gap-5">
         <span
           className="font-display text-3xl font-semibold tabular-nums shrink-0 transition-colors duration-500"
-          style={{ color: active ? '#00B5FF' : inactiveColor }}
+          style={{ color: active ? (theme === 'light' ? '#0369A1' : '#00B5FF') : inactiveColor }}
         >
           {String(index + 1).padStart(2, '0')}
         </span>
