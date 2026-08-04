@@ -15,8 +15,10 @@ import {
 import { EASE, RippleButton, useCountUp } from "../../components/ui-motion";
 import { POLICIES, POLICY_STATUS_STYLE, SPORT_COLORS } from "../../components/policyData";
 
-const BLUE = "#00B5FF";
-const CYAN = "#22D3EE";
+/* ══════════════════════ UNIFIED COLOR SYSTEM ══════════════════════ */
+const BLUE = "#3B82F6";       // Primary Accent (Headers, icons)
+const CYAN = "#22D3EE";       // Intelligence Accent
+const ACTION_BLUE = "#2563EB"; // Primary Buttons (Fill)
 
 /* ══════════════════════ DATA ══════════════════════ */
 
@@ -28,9 +30,9 @@ const KPIS = [
 ];
 
 const APPROVAL = [
-  { label: "Approved", value: 74, color: "#22C55E" },
-  { label: "Rejected", value: 9, color: "#EF4444" },
-  { label: "Pending", value: 17, color: "#EAB308" },
+  { label: "Approved", value: 74, color: "#10B981" }, // Unified Success Green
+  { label: "Rejected", value: 9, color: "#EF4444" },  // Unified Danger Red
+  { label: "Pending", value: 17, color: "#EAB308" },  // Unified Warning Yellow
 ];
 
 const COVERAGE_BY_SPORT = [
@@ -56,13 +58,13 @@ const ACTIVITY = {
 
 const COVERAGE_BREAKDOWN = [
   { label: "Basic", value: 210, color: "#22D3EE" },
-  { label: "Standard", value: 486, color: "#00B5FF" },
-  { label: "Elite", value: 312, color: "#8B5CF6" },
+  { label: "Standard", value: 486, color: "#3B82F6" },
+  { label: "Elite", value: "#8B5CF6" },
   { label: "Premium Plus", value: 229, color: "#EAB308" },
 ];
 
 const RISK_LEVELS = [
-  { label: "Low", value: 58, color: "#22C55E" },
+  { label: "Low", value: 58, color: "#10B981" },
   { label: "Moderate", value: 30, color: "#EAB308" },
   { label: "High", value: 12, color: "#EF4444" },
 ];
@@ -74,7 +76,7 @@ const AI_RECS = [
 ];
 
 const REQ_STATUS_STYLE = {
-  Approved: "text-[#22C55E] bg-[#22C55E]/10 border-[#22C55E]/20",
+  Approved: "text-[#10B981] bg-[#10B981]/10 border-[#10B981]/20",
   "Under Review": "text-[#22D3EE] bg-[#22D3EE]/10 border-[#22D3EE]/20",
   Pending: "text-[#EAB308] bg-[#EAB308]/10 border-[#EAB308]/20",
 };
@@ -93,16 +95,19 @@ function Card({
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6, delay, ease: EASE }}
       whileHover={{ y: -3 }}
-      className={`group/card relative flex flex-col overflow-hidden rounded-3xl border border-white/[0.08] p-6 transition-colors duration-300 hover:border-[#00B5FF]/25 ${className}`}
-      style={{ background: "rgba(14,20,30,.72)", boxShadow: "inset 0 1px 0 0 rgba(255,255,255,0.05), 0 24px 60px -40px rgba(0,0,0,0.6)" }}
+      // Unified Border, background, boxShadow
+      className={`group/card relative flex flex-col overflow-hidden rounded-3xl border border-[#1E2640] p-6 transition-colors duration-300 hover:border-[#2E395C] ${className}`}
+      style={{ background: "#0B0F1D", boxShadow: "inset 0 1px 0 0 rgba(255,255,255,0.03), 0 24px 60px -40px rgba(0,0,0,0.6)" }}
     >
+      {/* Unified inner glow */}
       <div className="pointer-events-none absolute inset-0 rounded-3xl opacity-0 transition-opacity duration-500 group-hover/card:opacity-100"
-        style={{ boxShadow: "inset 0 0 30px -10px rgba(0,181,255,0.25)" }} />
+        style={{ boxShadow: "inset 0 0 30px -10px rgba(59,130,246,0.15)" }} />
       {(title || right) && (
         <div className="relative mb-5 flex items-start justify-between">
           <div>
             {title && <p className="font-heading text-[15px] font-bold tracking-tight text-white">{title}</p>}
-            {subtitle && <p className="mt-0.5 text-[12px] text-white/45">{subtitle}</p>}
+            {/* Unified Secondary Text color */}
+            {subtitle && <p className="mt-0.5 text-[12px] text-slate-400">{subtitle}</p>}
           </div>
           {right}
         </div>
@@ -114,7 +119,8 @@ function Card({
 
 function Pill({ children }) {
   return (
-    <span className="flex items-center gap-1.5 rounded-full border border-white/[0.1] bg-white/[0.02] px-3 py-1.5 text-[12px] text-white/60">
+    // Unified Inner background, border, text
+    <span className="flex items-center gap-1.5 rounded-full border border-[#1E2640] bg-[#11162B] px-3 py-1.5 text-[12px] text-slate-400">
       {children}
     </span>
   );
@@ -149,21 +155,25 @@ function KpiCard({ k, i }) {
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.55, delay: i * 0.08, ease: EASE }}
       whileHover={{ y: -4 }}
-      className="group relative flex flex-col overflow-hidden rounded-3xl border border-white/[0.08] p-6 transition-colors duration-300 hover:border-[#00B5FF]/25"
-      style={{ background: "rgba(14,20,30,.72)", boxShadow: "inset 0 1px 0 0 rgba(255,255,255,0.05), 0 24px 60px -40px rgba(0,0,0,0.6)" }}
+      // Unified Card styling
+      className="group relative flex flex-col overflow-hidden rounded-3xl border border-[#1E2640] p-6 transition-colors duration-300 hover:border-[#2E395C]"
+      style={{ background: "#0B0F1D", boxShadow: "inset 0 1px 0 0 rgba(255,255,255,0.03), 0 24px 60px -40px rgba(0,0,0,0.6)" }}
     >
+      {/* Unified radial glow */}
       <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-        style={{ background: "radial-gradient(80% 60% at 50% 120%, rgba(0,181,255,0.12), transparent 70%)" }} />
+        style={{ background: "radial-gradient(80% 60% at 50% 120%, rgba(59,130,246,0.12), transparent 70%)" }} />
       <div className="relative flex items-center justify-between">
-        <div className="grid h-9 w-9 place-items-center rounded-xl border border-white/[0.08] bg-white/[0.03]">
-          <Icon size={16} className="text-[#22D3EE]" />
+        {/* Unified Icon background/border */}
+        <div className="grid h-9 w-9 place-items-center rounded-xl border border-[#1E2640] bg-[#11162B]">
+          <Icon size={16} className="text-[#3B82F6]" />
         </div>
-        <span className={`flex items-center gap-1 text-[12px] font-medium ${k.up ? "text-[#22C55E]" : "text-[#EF4444]"}`}>
+        <span className={`flex items-center gap-1 text-[12px] font-medium ${k.up ? "text-[#10B981]" : "text-[#EF4444]"}`}>
           <TrendingUp size={12} className={k.up ? "" : "rotate-180"} />{k.delta}
         </span>
       </div>
       <p className="relative mt-4 font-heading text-[28px] font-bold leading-none tracking-tight text-white">{n}{k.suffix ?? ""}</p>
-      <p className="relative mt-1.5 text-[13px] text-white/55">{k.label}</p>
+      {/* Unified Secondary Text color */}
+      <p className="relative mt-1.5 text-[13px] text-slate-400">{k.label}</p>
       <div className="relative mt-3 opacity-70"><Sparkline data={k.spark} color={k.up ? CYAN : "#EF4444"} /></div>
     </motion.div>
   );
@@ -184,25 +194,30 @@ function ApprovalGauge() {
       <div className="relative h-[120px] w-[200px]">
         <svg viewBox="0 0 200 110" className="h-full w-full">
           <defs>
-            <linearGradient id="gauge" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stopColor={BLUE} /><stop offset="100%" stopColor={CYAN} />
+            {/* Unified Blue to Cyan gradient */}
+            <linearGradient id="gaugeUnified" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="#3B82F6" /><stop offset="100%" stopColor={CYAN} />
             </linearGradient>
           </defs>
-          <path d={`M ${CX - R} ${CY} A ${R} ${R} 0 0 1 ${CX + R} ${CY}`} fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth="12" strokeLinecap="round" />
-          <motion.path d={`M ${CX - R} ${CY} A ${R} ${R} 0 0 1 ${CX + R} ${CY}`} fill="none" stroke="url(#gauge)" strokeWidth="12" strokeLinecap="round"
+          {/* Unified border stroke color */}
+          <path d={`M ${CX - R} ${CY} A ${R} ${R} 0 0 1 ${CX + R} ${CY}`} fill="none" stroke="#1E2640" strokeWidth="12" strokeLinecap="round" />
+          <motion.path d={`M ${CX - R} ${CY} A ${R} ${R} 0 0 1 ${CX + R} ${CY}`} fill="none" stroke="url(#gaugeUnified)" strokeWidth="12" strokeLinecap="round"
             strokeDasharray={semi} initial={{ strokeDashoffset: semi }} animate={inView ? { strokeDashoffset: semi * (1 - frac) } : {}}
-            transition={{ duration: 1.1, ease: EASE }} style={{ filter: "drop-shadow(0 0 6px rgba(0,181,255,0.4))" }} />
+            transition={{ duration: 1.1, ease: EASE }} style={{ filter: "drop-shadow(0 0 6px rgba(59,130,246,0.4))" }} />
         </svg>
         <div className="absolute inset-x-0 bottom-1 text-center">
           <p className="font-heading text-[30px] font-bold leading-none text-white">{n}%</p>
-          <p className="mt-1 text-[11px] text-white/45">Approved Policies</p>
+          {/* Unified Secondary Text color */}
+          <p className="mt-1 text-[11px] text-slate-400">Approved Policies</p>
         </div>
       </div>
       <div className="mt-5 grid w-full grid-cols-3 gap-2">
         {APPROVAL.map((a) => (
-          <div key={a.label} className="rounded-xl border border-white/[0.06] bg-white/[0.02] px-2 py-2.5 text-center">
+          // Unified Cell styling
+          <div key={a.label} className="rounded-xl border border-[#1E2640] bg-[#11162B] px-2 py-2.5 text-center">
             <p className="font-heading text-[16px] font-bold text-white">{a.value}%</p>
-            <p className="mt-0.5 flex items-center justify-center gap-1 text-[11px] text-white/50">
+            {/* Unified Secondary Text color */}
+            <p className="mt-0.5 flex items-center justify-center gap-1 text-[11px] text-slate-400">
               <span className="h-1.5 w-1.5 rounded-full" style={{ background: a.color }} />{a.label}
             </p>
           </div>
@@ -220,7 +235,8 @@ function RecentPolicies() {
     <div className="overflow-x-auto">
       <table className="w-full min-w-[440px] text-left">
         <thead>
-          <tr className="text-[11px] uppercase tracking-[0.1em] text-white/40">
+          {/* Unified Secondary Text color */}
+          <tr className="text-[11px] uppercase tracking-[0.1em] text-slate-400">
             {["Policy ID", "Club", "Coverage Type", "Status"].map((h) => <th key={h} className="pb-3 pr-4 font-medium">{h}</th>)}
           </tr>
         </thead>
@@ -228,7 +244,8 @@ function RecentPolicies() {
           {rows.map((p, i) => (
             <motion.tr key={p.id} initial={{ opacity: 0, x: -12 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
               transition={{ duration: 0.45, delay: i * 0.06, ease: EASE }}
-              className="border-t border-white/[0.05] text-[13px] transition-colors hover:bg-white/[0.03]">
+              // Unified Border, row hover color
+              className="border-t border-[#1E2640] text-[13px] transition-colors hover:bg-white/[0.03]">
               <td className="whitespace-nowrap py-3 pr-4 font-medium text-white">{p.id}</td>
               <td className="whitespace-nowrap py-3 pr-4 text-white/70">{p.club}</td>
               <td className="whitespace-nowrap py-3 pr-4 text-white/60">{p.coverage}</td>
@@ -257,7 +274,8 @@ function CoverageBySport() {
             <span className="flex items-center gap-2 text-white/65"><span className="h-2.5 w-2.5 rounded-sm" style={{ background: s.color }} />{s.label}</span>
             <span className="font-medium text-white/80">{s.value}</span>
           </div>
-          <div className="h-2.5 overflow-hidden rounded-full bg-white/[0.06]">
+          {/* Unified inner background color */}
+          <div className="h-2.5 overflow-hidden rounded-full bg-[#11162B]">
             <motion.div initial={{ width: 0 }} animate={inView ? { width: `${(s.value / max) * 100}%` } : {}}
               transition={{ duration: 0.9, delay: i * 0.08, ease: EASE }} className="h-full rounded-full"
               style={{ background: `linear-gradient(90deg, ${s.color}99, ${s.color})`, boxShadow: `0 0 12px -2px ${s.color}66` }} />
@@ -276,15 +294,19 @@ function RecentRequests() {
       {REQUESTS.map((r, i) => (
         <motion.div key={r.player} initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
           transition={{ duration: 0.45, delay: i * 0.08, ease: EASE }} whileHover={{ x: 3 }}
-          className="flex items-center gap-3 rounded-2xl border border-white/[0.06] bg-white/[0.02] p-3 transition-colors hover:border-white/[0.12]">
-          <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-[#00B5FF]/25 to-[#22D3EE]/10 text-[13px] font-bold text-white">{r.initials}</div>
+          // Unified Cell styling, hover border
+          className="flex items-center gap-3 rounded-2xl border border-[#1E2640] bg-[#0B0F1D] p-3 transition-colors hover:border-[#2E395C]">
+          {/* Unified Blue to Cyan gradient */}
+          <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-[#3B82F6]/25 to-[#22D3EE]/10 text-[13px] font-bold text-white">{r.initials}</div>
           <div className="min-w-0 flex-1">
             <p className="truncate text-[13px] font-semibold text-white">{r.club}</p>
-            <p className="truncate text-[12px] text-white/50">{r.player} · {r.sport}</p>
+            {/* Unified Secondary Text color */}
+            <p className="truncate text-[12px] text-slate-400">{r.player} · {r.sport}</p>
           </div>
           <div className="flex flex-col items-end gap-1">
             <span className={`rounded-full border px-2 py-0.5 text-[10px] font-medium ${REQ_STATUS_STYLE[r.status]}`}>{r.status}</span>
-            <span className="text-[10px] text-white/35">{r.date}</span>
+            {/* Unified Secondary Text color */}
+            <span className="text-[10px] text-slate-500">{r.date}</span>
           </div>
         </motion.div>
       ))}
@@ -300,9 +322,9 @@ function PolicyActivity() {
   const [hx, setHx] = useState(null);
   const W = 560, H = 220;
   const series = [
-    { key: "approved", data: ACTIVITY.approved, color: "#22C55E", label: "Approved" },
-    { key: "pending", data: ACTIVITY.pending, color: BLUE, label: "Pending" },
-    { key: "rejected", data: ACTIVITY.rejected, color: "#EF4444", label: "Rejected" },
+    { key: "approved", data: ACTIVITY.approved, color: "#10B981", label: "Approved" }, // Unified Success Green
+    { key: "pending", data: ACTIVITY.pending, color: "#3B82F6", label: "Pending" },   // Unified Accent Blue
+    { key: "rejected", data: ACTIVITY.rejected, color: "#EF4444", label: "Rejected" }, // Unified Danger Red
   ];
   const n = ACTIVITY.months.length;
   const max = Math.max(...series.flatMap((s) => s.data)) * 1.2;
@@ -324,37 +346,48 @@ function PolicyActivity() {
       <div className="relative">
         <svg viewBox={`0 0 ${W} ${H}`} className="h-[240px] w-full" fill="none" preserveAspectRatio="none" onMouseLeave={() => setHx(null)}>
           <defs>
+            {/* CLIPPATH FOR DRAWING ANIMATION */}
+            <clipPath id="drawClipPolicyActivity">
+              <motion.rect x="0" y="0" height={H} initial={{ width: 0 }} animate={inView ? { width: W } : {}} transition={{ duration: 1.4, ease: EASE }} />
+            </clipPath>
+
             {series.map((s) => (
-              <linearGradient key={s.key} id={`pa-${s.key}`} x1="0" y1="0" x2="0" y2="1">
+              <linearGradient key={s.key} id={`paUnified-${s.key}`} x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor={s.color} stopOpacity="0.25" /><stop offset="100%" stopColor={s.color} stopOpacity="0" />
               </linearGradient>
             ))}
-            <filter id="paGlow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="3" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
+            <filter id="paUnifiedGlow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="3" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
           </defs>
-          {[0.25, 0.5, 0.75, 1].map((g) => <line key={g} x1="0" x2={W} y1={H * g} y2={H * g} stroke="rgba(255,255,255,0.05)" strokeWidth="1" />)}
+          {/* Unified Border color */}
+          {[0.25, 0.5, 0.75, 1].map((g) => <line key={g} x1="0" x2={W} y1={H * g} y2={H * g} stroke="#1E2640" strokeWidth="1" />)}
           {series.map((s, si) => (
-            <motion.path key={`a-${s.key}`} d={area(s.data)} fill={`url(#pa-${s.key})`} initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} transition={{ duration: 1, delay: 0.6 + si * 0.15 }} />
+            <motion.path key={`a-${s.key}`} d={area(s.data)} fill={`url(#paUnified-${s.key})`} initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} transition={{ duration: 1, delay: 0.6 + si * 0.15 }} />
           ))}
-          {series.map((s, si) => (
-            <motion.path key={s.key} d={smooth(s.data)} stroke={s.color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" filter="url(#paGlow)"
-              initial={{ pathLength: 0 }} animate={inView ? { pathLength: 1 } : {}} transition={{ duration: 1.5, delay: si * 0.15, ease: EASE }} vectorEffect="non-scaling-stroke" />
+          {/* DRAWN PATH VIA CLIPPATH AND UNIFIED GLOW */}
+          {series.map((s) => (
+            <path key={s.key} d={smooth(s.data)} stroke={s.color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none" filter="url(#paUnifiedGlow)" clipPath="url(#drawClipPolicyActivity)" />
           ))}
           {ACTIVITY.months.map((_, i) => (
             <g key={i}>
-              <rect x={px(i) - stepW / 2} y={0} width={stepW} height={H} fill="transparent" onMouseEnter={() => setHx(i)} style={{ cursor: "pointer" }} />
-              {hx === i && <line x1={px(i)} x2={px(i)} y1={0} y2={H} stroke="rgba(255,255,255,0.18)" strokeWidth="1" strokeDasharray="3 3" />}
-              {hx === i && series.map((s) => <circle key={s.key} cx={px(i)} cy={py(s.data[i])} r="3.5" fill="#0c121a" stroke={s.color} strokeWidth="2.5" />)}
+              <rect x={px(i) - stepW / 2} y="0" width={stepW} height={H} fill="transparent" onMouseEnter={() => setHx(i)} style={{ cursor: "pointer" }} />
+              {/* Unified hover line color */}
+              {hx === i && <line x1={px(i)} x2={px(i)} y1="0" y2={H} stroke="#334155" strokeWidth="1" strokeDasharray="3 3" />}
+              {/* Unified hover circle border/fill */}
+              {hx === i && series.map((s) => <circle key={s.key} cx={px(i)} cy={py(s.data[i])} r="3.5" fill="#0B0F1D" stroke={s.color} strokeWidth="2.5" />)}
             </g>
           ))}
         </svg>
         {hx !== null && (
           <motion.div initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2 }}
-            className="pointer-events-none absolute -translate-x-1/2 rounded-xl border border-white/[0.12] px-3 py-2 text-[11px] shadow-2xl backdrop-blur-md"
-            style={{ left: `${(hx / (n - 1)) * 100}%`, top: 4, background: "rgba(12,18,26,0.8)" }}>
-            <p className="mb-1 font-medium text-white/80">{ACTIVITY.months[hx]}</p>
+            // Unified Tooltip styling
+            className="pointer-events-none absolute -translate-x-1/2 rounded-xl border border-[#1E2640] px-3 py-2 text-[11px] shadow-2xl backdrop-blur-md"
+            style={{ left: `${(hx / (n - 1)) * 100}%`, top: 4, background: "#11162B" }}>
+            {/* Unified secondary text color */}
+            <p className="mb-1 font-medium text-slate-300">{ACTIVITY.months[hx]}</p>
             {series.map((s) => (
               <div key={s.key} className="flex items-center justify-between gap-3">
-                <span className="flex items-center gap-1.5 text-white/55"><span className="h-1.5 w-1.5 rounded-full" style={{ background: s.color }} />{s.label}</span>
+                {/* Unified secondary text color */}
+                <span className="flex items-center gap-1.5 text-slate-400"><span className="h-1.5 w-1.5 rounded-full" style={{ background: s.color }} />{s.label}</span>
                 <span className="font-medium text-white">{s.data[hx]}</span>
               </div>
             ))}
@@ -365,11 +398,13 @@ function PolicyActivity() {
         {series.map((s) => (
           <div key={s.key} className="flex items-center gap-2">
             <span className="h-2 w-4 rounded-full" style={{ background: s.color }} />
-            <span className="text-[12px] text-white/55">{s.label}</span>
+            {/* Unified Secondary Text color */}
+            <span className="text-[12px] text-slate-400">{s.label}</span>
           </div>
         ))}
       </div>
-      <div className="mt-2 flex justify-between px-1 text-[10px] text-white/35">{ACTIVITY.months.map((m) => <span key={m}>{m}</span>)}</div>
+      {/* Unified Secondary Text color */}
+      <div className="mt-2 flex justify-between px-1 text-[10px] text-slate-500">{ACTIVITY.months.map((m) => <span key={m}>{m}</span>)}</div>
     </div>
   );
 }
@@ -386,19 +421,21 @@ function CoverageBreakdown() {
   return (
     <div ref={ref} className="flex h-full flex-col items-center justify-center">
       <div className="relative h-[170px] w-[170px]">
-        <div className="pointer-events-none absolute inset-0 rounded-full blur-2xl" style={{ background: "radial-gradient(circle at 50% 50%, rgba(0,181,255,0.12), transparent 65%)" }} />
+        {/* Unified radial glow */}
+        <div className="pointer-events-none absolute inset-0 rounded-full blur-2xl" style={{ background: "radial-gradient(circle at 50% 50%, rgba(59,130,246,0.12), transparent 65%)" }} />
         <svg viewBox="0 0 150 150" className="relative h-full w-full -rotate-90" style={{ filter: "drop-shadow(0 8px 22px rgba(0,0,0,0.45))" }}>
           <defs>
             {COVERAGE_BREAKDOWN.map((s, i) => (
-              <linearGradient key={s.label} id={`cb-${i}`} x1="0" y1="0" x2="1" y2="1">
+              <linearGradient key={s.label} id={`cbUnifiedDonut-${i}`} x1="0" y1="0" x2="1" y2="1">
                 <stop offset="0%" stopColor={s.color} stopOpacity="0.6" /><stop offset="100%" stopColor={s.color} stopOpacity="1" />
               </linearGradient>
             ))}
           </defs>
-          <circle cx="75" cy="75" r={R} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="15" />
+          {/* Unified Border color */}
+          <circle cx="75" cy="75" r={R} fill="none" stroke="#1E2640" strokeWidth="15" />
           {COVERAGE_BREAKDOWN.map((s, i) => {
             const len = (s.value / total) * C, arc = Math.max(len - GAP, 3), active = hover === i;
-            const el = <motion.circle key={s.label} cx="75" cy="75" r={R} fill="none" stroke={`url(#cb-${i})`}
+            const el = <motion.circle key={s.label} cx="75" cy="75" r={R} fill="none" stroke={`url(#cbUnifiedDonut-${i})`}
               strokeWidth={active ? 18 : 14} strokeLinecap="round" strokeDashoffset={-offset}
               initial={{ strokeDasharray: `0 ${C}` }} animate={inView ? { strokeDasharray: `${arc} ${C - arc}` } : {}}
               transition={{ duration: 1, delay: i * 0.12, ease: EASE }} onMouseEnter={() => setHover(i)} onMouseLeave={() => setHover(null)}
@@ -410,13 +447,15 @@ function CoverageBreakdown() {
         <div className="absolute inset-0 grid place-items-center">
           <div className="text-center">
             <p className="font-heading text-[24px] font-bold leading-none text-white">{hover !== null ? COVERAGE_BREAKDOWN[hover].value : total}</p>
-            <p className="mt-1 text-[10px] uppercase tracking-[0.12em] text-white/40">{hover !== null ? COVERAGE_BREAKDOWN[hover].label : "policies"}</p>
+            {/* Unified Secondary Text color */}
+            <p className="mt-1 text-[10px] uppercase tracking-[0.12em] text-slate-400">{hover !== null ? COVERAGE_BREAKDOWN[hover].label : "policies"}</p>
           </div>
         </div>
       </div>
       <div className="mt-5 grid w-full grid-cols-2 gap-x-4 gap-y-2">
         {COVERAGE_BREAKDOWN.map((s, i) => (
           <button key={s.label} onMouseEnter={() => setHover(i)} onMouseLeave={() => setHover(null)}
+            // Unified hover background
             className={`flex items-center justify-between rounded-lg px-1.5 py-1 transition-colors ${hover === i ? "bg-white/[0.05]" : "hover:bg-white/[0.03]"}`}>
             <span className="flex items-center gap-2 text-[12px] text-white/70"><span className="h-2.5 w-2.5 rounded-sm" style={{ background: s.color }} />{s.label}</span>
             <span className="text-[12px] font-medium text-white">{s.value}</span>
@@ -437,8 +476,10 @@ function MiniBars({ data, pct }) {
     <div ref={ref} className="space-y-2.5">
       {data.map((d, i) => (
         <div key={d.label}>
-          <div className="mb-1 flex items-center justify-between text-[11px]"><span className="text-white/55">{d.label}</span><span className="font-medium text-white/75">{d.value}{pct ? "%" : ""}</span></div>
-          <div className="h-1.5 overflow-hidden rounded-full bg-white/[0.06]">
+          {/* Unified Secondary/Secondary Text color */}
+          <div className="mb-1 flex items-center justify-between text-[11px]"><span className="text-slate-400">{d.label}</span><span className="font-medium text-slate-300">{d.value}{pct ? "%" : ""}</span></div>
+          {/* Unified inner background color */}
+          <div className="h-1.5 overflow-hidden rounded-full bg-[#11162B]">
             <motion.div initial={{ width: 0 }} animate={inView ? { width: `${(d.value / max) * 100}%` } : {}} transition={{ duration: 0.9, delay: i * 0.06, ease: EASE }} className="h-full rounded-full" style={{ background: d.color }} />
           </div>
         </div>
@@ -454,49 +495,61 @@ function PortfolioOverview() {
   const sportBars = COVERAGE_BY_SPORT.slice(0, 4).map((s) => ({ label: s.label, value: s.value, color: s.color }));
   return (
     <motion.section ref={ref} initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, ease: EASE }}
-      className="relative overflow-hidden rounded-3xl border border-[#00B5FF]/25 p-6 lg:p-8" style={{ background: "rgba(0,181,255,0.05)" }}>
-      <motion.div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full blur-3xl" style={{ background: "rgba(0,181,255,0.2)" }}
+      // Unified Card styling, dynamic AI highlight border
+      className="relative overflow-hidden rounded-3xl border border-[#3B82F6]/25 p-6 lg:p-8" style={{ background: "#0B0F1D", boxShadow: "inset 0 1px 0 0 rgba(255,255,255,0.03), 0 24px 60px -40px rgba(0,0,0,0.6)" }}>
+      {/* Unified radial glow */}
+      <motion.div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full blur-3xl" style={{ background: "rgba(59,130,246,0.15)" }}
         animate={{ scale: [1, 1.15, 1], opacity: [0.6, 1, 0.6] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }} />
 
       <div className="relative mb-6 flex items-center gap-3">
-        <div className="relative grid h-11 w-11 place-items-center rounded-2xl border border-[#00B5FF]/30 bg-[#00B5FF]/10">
-          <Brain size={19} className="text-[#22D3EE]" /><span className="absolute inset-0 rounded-2xl border border-[#00B5FF]/40 motion-safe:animate-ping" />
+        {/* Unified Icon background/border */}
+        <div className="relative grid h-11 w-11 place-items-center rounded-2xl border border-[#3B82F6]/30 bg-[#11162B]">
+          <Brain size={19} className="text-[#3B82F6]" /><span className="absolute inset-0 rounded-2xl border border-[#3B82F6]/40 motion-safe:animate-ping" />
         </div>
         <div>
           <p className="font-heading text-[16px] font-bold tracking-tight text-white">AI Insurance Portfolio Overview</p>
-          <p className="text-[12px] text-white/45">Live portfolio intelligence · model v4.2</p>
+          {/* Unified Secondary Text color */}
+          <p className="text-[12px] text-slate-400">Live portfolio intelligence · model v4.2</p>
         </div>
       </div>
 
       <div className="relative grid gap-6 md:grid-cols-2 xl:grid-cols-5">
-        <div className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-4">
-          <p className="mb-3 text-[11px] uppercase tracking-[0.12em] text-white/40">Policies by Sport</p>
+        {/* Unified Cell styling */}
+        <div className="rounded-2xl border border-[#1E2640] bg-[#0B0F1D] p-4">
+          <p className="mb-3 text-[11px] uppercase tracking-[0.12em] text-slate-400">Policies by Sport</p>
           <MiniBars data={sportBars} />
         </div>
-        <div className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-4">
-          <p className="mb-3 text-[11px] uppercase tracking-[0.12em] text-white/40">Policies by Risk Level</p>
+        {/* Unified Cell styling */}
+        <div className="rounded-2xl border border-[#1E2640] bg-[#0B0F1D] p-4">
+          <p className="mb-3 text-[11px] uppercase tracking-[0.12em] text-slate-400">Policies by Risk Level</p>
           <MiniBars data={RISK_LEVELS} pct />
         </div>
-        <div className="flex flex-col justify-between rounded-2xl border border-white/[0.08] bg-white/[0.02] p-4">
-          <p className="text-[11px] uppercase tracking-[0.12em] text-white/40">Coverage Utilization</p>
+        {/* Unified Cell styling */}
+        <div className="flex flex-col justify-between rounded-2xl border border-[#1E2640] bg-[#0B0F1D] p-4">
+          <p className="text-[11px] uppercase tracking-[0.12em] text-slate-400">Coverage Utilization</p>
           <div>
             <p className="font-heading text-[34px] font-bold leading-none text-white">{util}%</p>
-            <div className="mt-3 h-2 overflow-hidden rounded-full bg-white/[0.06]">
-              <motion.div initial={{ width: 0 }} animate={inView ? { width: "87%" } : {}} transition={{ duration: 1, ease: EASE }} className="h-full rounded-full bg-gradient-to-r from-[#00B5FF] to-[#22D3EE]" />
+            {/* Unified inner background color */}
+            <div className="mt-3 h-2 overflow-hidden rounded-full bg-[#11162B]">
+              <motion.div initial={{ width: 0 }} animate={inView ? { width: "87%" } : {}} transition={{ duration: 1, ease: EASE }} className="h-full rounded-full bg-gradient-to-r from-[#3B82F6] to-[#22D3EE]" />
             </div>
-            <p className="mt-2 text-[11px] text-white/45">of total portfolio capacity in use</p>
+            {/* Unified Secondary Text color */}
+            <p className="mt-2 text-[11px] text-slate-400">of total portfolio capacity in use</p>
           </div>
         </div>
-        <div className="flex flex-col justify-between rounded-2xl border border-white/[0.08] bg-white/[0.02] p-4">
-          <p className="text-[11px] uppercase tracking-[0.12em] text-white/40">Pending Renewals</p>
+        {/* Unified Cell styling */}
+        <div className="flex flex-col justify-between rounded-2xl border border-[#1E2640] bg-[#0B0F1D] p-4">
+          <p className="text-[11px] uppercase tracking-[0.12em] text-slate-400">Pending Renewals</p>
           <div>
             <p className="font-heading text-[34px] font-bold leading-none text-white">34</p>
             <p className="mt-2 flex items-center gap-1 text-[11px] text-[#EAB308]"><Calendar size={12} /> 6 due within 14 days</p>
           </div>
-          <RippleButton className="mt-3 justify-center rounded-full border border-white/[0.15] py-2 text-[12px] font-medium text-white">Review renewals</RippleButton>
+          {/* Unified Action Button styling */}
+          <RippleButton className="mt-3 justify-center rounded-full bg-[#2563EB] px-4 py-2 text-[12px] font-medium text-white hover:bg-[#1D4ED8]">Review renewals</RippleButton>
         </div>
-        <div className="rounded-2xl border border-[#00B5FF]/20 bg-[#00B5FF]/[0.06] p-4 md:col-span-2 xl:col-span-1">
-          <p className="mb-3 flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-[0.12em] text-[#4FC9FF]"><Sparkles size={12} /> Recent AI Recommendations</p>
+        {/* Unified AI Highlight Cell styling */}
+        <div className="rounded-2xl border border-[#3B82F6]/20 bg-[#3B82F6]/[0.06] p-4 md:col-span-2 xl:col-span-1">
+          <p className="mb-3 flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-[0.12em] text-[#3B82F6]"><Sparkles size={12} /> Recent AI Recommendations</p>
           <div className="space-y-2.5">
             {AI_RECS.map((t, i) => (
               <motion.div key={t} initial={{ opacity: 0, x: -10 }} animate={inView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.5, delay: 0.3 + i * 0.1 }} className="flex items-start gap-2">
@@ -515,18 +568,21 @@ function PortfolioOverview() {
 
 export default function Dashboard() {
   return (
-    <main className="mx-auto max-w-[1440px] px-5 py-8 lg:px-8">
+    // Unified Page background color
+    <main className="min-h-screen bg-[#060811] mx-auto max-w-[1440px] px-5 py-8 lg:px-8">
       <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: EASE }}
         className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
         <div>
           <h1 className="font-heading text-[30px] font-bold tracking-[-0.03em] text-white sm:text-[38px]">Policies</h1>
-          <p className="mt-2 max-w-[600px] text-[15px] leading-relaxed text-white/55">
+          {/* Unified Secondary Text color */}
+          <p className="mt-2 max-w-[600px] text-[15px] leading-relaxed text-slate-400">
             Manage insurance policies, review AI-generated coverage recommendations and monitor policy status across all insured clubs.
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <Pill><Calendar size={14} className="text-white/40" /> 2025 – 2026</Pill>
-          <Pill><Activity size={14} className="text-[#22D3EE]" /> All policies</Pill>
+          {/* Unified Secondary Text color for standard elements */}
+          <Pill><Calendar size={14} className="text-slate-400" /> 2025 – 2026</Pill>
+          <Pill><Activity size={14} className="text-[#3B82F6]" /> All policies</Pill>
         </div>
       </motion.div>
 
@@ -557,7 +613,8 @@ export default function Dashboard() {
       {/* BOTTOM */}
       <div className="mt-5"><PortfolioOverview /></div>
 
-      <p className="mt-8 text-[12px] text-white/30">Figures are illustrative sample data for the ATHLONIX platform preview.</p>
+      {/* Unified Secondary Text color */}
+      <p className="mt-8 text-[12px] text-slate-500">Figures are illustrative sample data for the ATHLONIX platform preview.</p>
     </main>
   );
 }

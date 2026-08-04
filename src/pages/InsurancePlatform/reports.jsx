@@ -15,26 +15,29 @@ import {
   FileText,
   HeartPulse,
   Loader2,
+  Search,
   ShieldAlert,
   Sparkles,
   TrendingUp,
   Wallet,
   X,
+  ChevronRight,
+  Filter,
 } from "lucide-react";
 
-const EASE = [0.22, 1, 0.36, 1];
+const EASE = [0.16, 1, 0.3, 1];
 const BLUE = "#00B5FF";
-const SPRING = { type: "spring", stiffness: 200, damping: 18 };
+const SPRING = { type: "spring", stiffness: 220, damping: 20 };
 
 /* ══════════════════════ DATA ══════════════════════ */
 
 const TEMPLATES = [
   { id: "risk", title: "Monthly Risk Report", desc: "Squad-wide injury risk, ACWR trends and flagged athletes for the period.", time: "~40s", icon: ShieldAlert, gradient: "from-[#EF4444] to-[#00B5FF]" },
-  { id: "club", title: "Executive Club Report", desc: "Board-ready summary of squad health, availability and performance.", time: "~55s", icon: BarChart3, gradient: "from-[#00B5FF] to-[#22D3EE]" },
-  { id: "insurance", title: "Insurance Summary", desc: "Coverage, claims pipeline and portfolio exposure at a glance.", time: "~35s", icon: Wallet, gradient: "from-[#22D3EE] to-[#22C55E]" },
+  { id: "club", title: "Executive Club Report", desc: "Board-ready summary of squad health, availability and performance.", time: "~55s", icon: BarChart3, gradient: "from-[#00B5FF] to-[#00E5FF]" },
+  { id: "insurance", title: "Insurance Summary", desc: "Coverage, claims pipeline and portfolio exposure at a glance.", time: "~35s", icon: Wallet, gradient: "from-[#00E5FF] to-[#10B981]" },
   { id: "premium", title: "Premium Analysis", desc: "Dynamic premium modelling and forecast against live risk.", time: "~45s", icon: TrendingUp, gradient: "from-[#8B5CF6] to-[#00B5FF]" },
   { id: "medical", title: "Medical Intelligence Report", desc: "Injury patterns, recovery windows and medical observations.", time: "~50s", icon: HeartPulse, gradient: "from-[#EC4899] to-[#EF4444]" },
-  { id: "performance", title: "Athlete Performance Report", desc: "Load, fatigue and output metrics across the monitored squad.", time: "~48s", icon: Activity, gradient: "from-[#22D3EE] to-[#00B5FF]" },
+  { id: "performance", title: "Athlete Performance Report", desc: "Load, fatigue and output metrics across the monitored squad.", time: "~48s", icon: Activity, gradient: "from-[#00E5FF] to-[#00B5FF]" },
 ];
 
 const GEN_STEPS = [
@@ -94,16 +97,16 @@ function ReportSection({
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 20 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay: i * 0.05, ease: EASE }}
+      transition={{ duration: 0.5, delay: i * 0.04, ease: EASE }}
       className="scroll-mt-6"
     >
       <div className="mb-4 flex items-center gap-2.5">
-        <div className="grid h-8 w-8 place-items-center rounded-lg border border-[#00B5FF]/25 bg-[#00B5FF]/10">
-          <Icon size={15} className="text-[#22D3EE]" />
+        <div className="grid h-8 w-8 place-items-center rounded-lg border border-[#00B5FF]/30 bg-[#00B5FF]/10 text-[#00B5FF]">
+          <Icon size={15} />
         </div>
-        <h3 className="font-heading text-[16px] font-bold tracking-tight text-white">
+        <h3 className="font-heading text-[15px] font-semibold tracking-tight text-white">
           {title}
         </h3>
       </div>
@@ -123,9 +126,9 @@ function LineChart({ data, max, color }) {
     .join(" ");
   return (
     <div ref={ref}>
-      <svg viewBox={`0 0 ${W} ${H}`} className="h-[120px] w-full" fill="none" preserveAspectRatio="none">
+      <svg viewBox={`0 0 ${W} ${H}`} className="h-[120px] w-full overflow-visible" fill="none" preserveAspectRatio="none">
         {[0.25, 0.5, 0.75].map((g) => (
-          <line key={g} x1="0" x2={W} y1={H * g} y2={H * g} stroke="rgba(255,255,255,0.05)" strokeWidth="1" />
+          <line key={g} x1="0" x2={W} y1={H * g} y2={H * g} stroke="rgba(255,255,255,0.04)" strokeWidth="1" strokeDasharray="3 3" />
         ))}
         <motion.polyline
           points={pts}
@@ -135,8 +138,9 @@ function LineChart({ data, max, color }) {
           strokeLinejoin="round"
           initial={{ pathLength: 0 }}
           animate={inView ? { pathLength: 1 } : {}}
-          transition={{ duration: 1.5, ease: EASE }}
+          transition={{ duration: 1.4, ease: EASE }}
           vectorEffect="non-scaling-stroke"
+          style={{ filter: "drop-shadow(0 0 8px rgba(0, 181, 255, 0.4))" }}
         />
       </svg>
     </div>
@@ -154,8 +158,8 @@ function BarChart({ data }) {
           key={i}
           initial={{ height: 0 }}
           animate={inView ? { height: `${(v / max) * 100}%` } : {}}
-          transition={{ duration: 0.8, delay: i * 0.07, ease: EASE }}
-          className="flex-1 rounded-t-md bg-gradient-to-t from-[#00B5FF]/35 to-[#22D3EE]"
+          transition={{ duration: 0.7, delay: i * 0.05, ease: EASE }}
+          className="flex-1 rounded-t-sm bg-gradient-to-t from-[#00B5FF]/20 via-[#00B5FF]/60 to-[#00E5FF] shadow-[0_0_12px_rgba(0,181,255,0.2)]"
         />
       ))}
     </div>
@@ -190,27 +194,26 @@ function ReportPreview({
   return (
     <motion.div
       layout
-      initial={{ opacity: 0, y: 24 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 24 }}
-      transition={{ duration: 0.5, ease: EASE }}
-      className="relative mt-8 overflow-hidden rounded-[28px] border border-white/[0.1]"
-      style={{ background: "rgba(12,18,26,.9)" }}
+      initial={{ opacity: 0, y: 24, scale: 0.98 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: 24, scale: 0.98 }}
+      transition={{ duration: 0.4, ease: EASE }}
+      className="relative mt-8 overflow-hidden rounded-2xl border border-slate-800 bg-[#0B111D]/90 backdrop-blur-2xl shadow-[0_0_50px_rgba(0,0,0,0.8)]"
     >
       <div
-        className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full blur-3xl"
-        style={{ background: "rgba(0,181,255,0.14)" }}
+        className="pointer-events-none absolute -right-20 -top-20 h-80 w-80 rounded-full blur-3xl opacity-20"
+        style={{ background: "radial-gradient(circle, #00B5FF 0%, transparent 70%)" }}
       />
 
       {/* Report toolbar */}
-      <div className="sticky top-0 z-10 flex items-center justify-between border-b border-white/[0.08] bg-[#0c121a]/90 px-6 py-4 backdrop-blur-xl">
+      <div className="sticky top-0 z-10 flex items-center justify-between border-b border-slate-800/80 bg-[#070C14]/90 px-6 py-4 backdrop-blur-xl">
         <div className="flex items-center gap-3">
-          <div className={`grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br ${tpl.gradient}`}>
-            <tpl.icon size={17} className="text-white" />
+          <div className={`grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br ${tpl.gradient} shadow-lg shadow-blue-500/10`}>
+            <tpl.icon size={18} className="text-white" />
           </div>
           <div>
             <p className="font-heading text-[15px] font-bold tracking-tight text-white">{tpl.title}</p>
-            <p className="text-[11px] text-white/40">ATHLONIX · Season 2026 · Confidential</p>
+            <p className="text-[11px] font-medium text-slate-400">ATHLONIX · Season 2026 · Confidential</p>
           </div>
         </div>
 
@@ -218,7 +221,7 @@ function ReportPreview({
           <GenerateControl gen={gen} step={step} onRun={run} />
           <button
             onClick={onClose}
-            className="grid h-9 w-9 place-items-center rounded-full border border-white/[0.1] text-white/50 transition-colors hover:text-white"
+            className="grid h-9 w-9 place-items-center rounded-xl border border-slate-800 bg-slate-900/50 text-slate-400 transition-colors hover:border-slate-700 hover:text-white"
           >
             <X size={16} />
           </button>
@@ -226,9 +229,9 @@ function ReportPreview({
       </div>
 
       {/* Scrollable report body */}
-      <div className="max-h-[70vh] space-y-10 overflow-y-auto px-6 py-8 lg:px-10">
+      <div className="max-h-[70vh] space-y-8 overflow-y-auto px-6 py-8 lg:px-10">
         <ReportSection title="Executive Summary" icon={FileText} i={0}>
-          <p className="text-[14px] leading-[1.7] text-white/70">
+          <p className="text-[14px] leading-relaxed text-slate-300">
             ATHLONIX AI analyzed 1,284 athletes across five clubs this cycle. Overall
             squad risk held steady while injury probability fell 3%, driven by improved
             load management at Al Hilal and Al Nassr. Portfolio premium rose 5% as three
@@ -241,16 +244,16 @@ function ReportPreview({
           <div className="grid gap-3 sm:grid-cols-2">
             {[
               { t: "Load spike detected", d: "Al Shabab winger ACWR 1.49 — reduce sprint volume 30%.", c: "#EF4444" },
-              { t: "Recovery on track", d: "A. Otayf return-to-play progressing ahead of schedule.", c: "#22C55E" },
+              { t: "Recovery on track", d: "A. Otayf return-to-play progressing ahead of schedule.", c: "#10B981" },
               { t: "Premium pressure", d: "Three defenders driving 5% portfolio premium increase.", c: BLUE },
-              { t: "Model confidence", d: "Risk model v4.2 running at 92% prediction confidence.", c: "#22D3EE" },
+              { t: "Model confidence", d: "Risk model v4.2 running at 92% prediction confidence.", c: "#00E5FF" },
             ].map((x) => (
-              <div key={x.t} className="rounded-2xl border border-white/[0.07] bg-white/[0.02] p-4">
+              <div key={x.t} className="rounded-xl border border-slate-800/80 bg-slate-900/40 p-4 transition-colors hover:border-slate-700/80">
                 <div className="flex items-center gap-2">
-                  <span className="h-2 w-2 rounded-full" style={{ background: x.c }} />
-                  <span className="text-[13px] font-medium text-white">{x.t}</span>
+                  <span className="h-2 w-2 rounded-full shadow-[0_0_8px_currentColor]" style={{ background: x.c, color: x.c }} />
+                  <span className="text-[13px] font-semibold text-white">{x.t}</span>
                 </div>
-                <p className="mt-1.5 text-[12px] leading-snug text-white/55">{x.d}</p>
+                <p className="mt-1.5 text-[12px] leading-snug text-slate-400">{x.d}</p>
               </div>
             ))}
           </div>
@@ -265,13 +268,13 @@ function ReportPreview({
         </ReportSection>
 
         <ReportSection title="Charts" icon={BarChart3} i={3}>
-          <div className="grid gap-5 lg:grid-cols-2">
-            <div className="rounded-2xl border border-white/[0.07] bg-white/[0.02] p-5">
-              <p className="mb-3 text-[12px] text-white/50">Average Risk — rolling 10 weeks</p>
+          <div className="grid gap-4 lg:grid-cols-2">
+            <div className="rounded-xl border border-slate-800/80 bg-slate-900/40 p-5">
+              <p className="mb-3 text-[12px] font-medium text-slate-400">Average Risk — rolling 10 weeks</p>
               <LineChart data={RISK_TREND} max={80} color={BLUE} />
             </div>
-            <div className="rounded-2xl border border-white/[0.07] bg-white/[0.02] p-5">
-              <p className="mb-3 text-[12px] text-white/50">Premium Estimate — SAR millions</p>
+            <div className="rounded-xl border border-slate-800/80 bg-slate-900/40 p-5">
+              <p className="mb-3 text-[12px] font-medium text-slate-400">Premium Estimate — SAR millions</p>
               <BarChart data={PREMIUM_TREND} />
             </div>
           </div>
@@ -280,13 +283,13 @@ function ReportPreview({
         <ReportSection title="Player Highlights" icon={Activity} i={4}>
           <div className="space-y-2.5">
             {HIGHLIGHTS.map((h) => (
-              <div key={h.name} className="flex items-center gap-4 rounded-2xl border border-white/[0.07] bg-white/[0.02] p-4">
-                <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-[#00B5FF]/25 to-[#22D3EE]/10 text-[12px] font-bold text-white">
+              <div key={h.name} className="flex items-center gap-4 rounded-xl border border-slate-800/80 bg-slate-900/40 p-4 transition-colors hover:border-slate-700/80">
+                <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-slate-700/50 bg-slate-800/60 text-[12px] font-bold text-white shadow-inner">
                   {h.name.split(" ").map((w) => w[0]).join("").slice(0, 2)}
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="text-[13px] font-medium text-white">{h.name} · <span className="text-white/45">{h.club}</span></p>
-                  <p className="text-[12px] text-white/50">{h.note}</p>
+                  <p className="text-[13px] font-medium text-white">{h.name} · <span className="text-slate-400">{h.club}</span></p>
+                  <p className="text-[12px] text-slate-400">{h.note}</p>
                 </div>
                 <span className="shrink-0 font-heading text-[18px] font-bold text-[#EF4444]">{h.risk}</span>
               </div>
@@ -297,14 +300,14 @@ function ReportPreview({
         <ReportSection title="Risk Analysis" icon={ShieldAlert} i={5}>
           <div className="grid gap-3 sm:grid-cols-3">
             {[
-              { label: "Low Risk", value: 812, color: "#22C55E" },
-              { label: "Moderate", value: 425, color: "#EAB308" },
+              { label: "Low Risk", value: 812, color: "#10B981" },
+              { label: "Moderate", value: 425, color: "#F59E0B" },
               { label: "High Risk", value: 47, color: "#EF4444" },
             ].map((r) => (
-              <div key={r.label} className="rounded-2xl border border-white/[0.07] bg-white/[0.02] p-4">
-                <p className="text-[12px] text-white/50">{r.label}</p>
+              <div key={r.label} className="rounded-xl border border-slate-800/80 bg-slate-900/40 p-4">
+                <p className="text-[12px] text-slate-400">{r.label}</p>
                 <p className="mt-1 font-heading text-[24px] font-bold text-white">{r.value}</p>
-                <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/[0.06]">
+                <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-slate-800">
                   <motion.div
                     initial={{ width: 0 }}
                     whileInView={{ width: `${(r.value / 1284) * 100}%` }}
@@ -320,9 +323,9 @@ function ReportPreview({
         </ReportSection>
 
         <ReportSection title="Premium Forecast" icon={TrendingUp} i={6}>
-          <div className="rounded-2xl border border-white/[0.07] bg-white/[0.02] p-5">
+          <div className="rounded-xl border border-slate-800/80 bg-slate-900/40 p-5">
             <BarChart data={PREMIUM_TREND} />
-            <p className="mt-4 text-[13px] leading-relaxed text-white/60">
+            <p className="mt-4 text-[13px] leading-relaxed text-slate-300">
               Projected portfolio premium reaches SAR 2.9M next cycle, a 2.1% rise, assuming
               current risk trajectories and no new high-risk classifications.
             </p>
@@ -336,8 +339,8 @@ function ReportPreview({
               "Introduce load-triggered premium adjustments for sprint-heavy roles.",
               "Bundle recovery-monitoring add-on for athletes in return-to-play.",
             ].map((t) => (
-              <li key={t} className="flex items-start gap-2.5 text-[13px] text-white/70">
-                <CheckCircle2 size={15} className="mt-0.5 shrink-0 text-[#22D3EE]" />
+              <li key={t} className="flex items-start gap-2.5 text-[13px] text-slate-300">
+                <CheckCircle2 size={15} className="mt-0.5 shrink-0 text-[#00E5FF]" />
                 {t}
               </li>
             ))}
@@ -345,7 +348,7 @@ function ReportPreview({
         </ReportSection>
 
         <ReportSection title="Medical Observations" icon={HeartPulse} i={8}>
-          <p className="text-[14px] leading-[1.7] text-white/70">
+          <p className="text-[14px] leading-relaxed text-slate-300">
             Hamstring strain remains the dominant injury pattern (38% of flagged cases),
             concentrated in wingers and full-backs with elevated sprint loads. Two athletes
             are in structured return-to-play; both are progressing within expected windows.
@@ -363,8 +366,8 @@ function Metric({ m }) {
   const inView = useInView(ref, { once: true });
   const n = useCountUp(m.value, inView, m.decimals ?? 0);
   return (
-    <div ref={ref} className="rounded-2xl border border-white/[0.07] bg-white/[0.02] p-4">
-      <p className="text-[11px] text-white/45">{m.label}</p>
+    <div ref={ref} className="rounded-xl border border-slate-800/80 bg-slate-900/40 p-4">
+      <p className="text-[11px] font-medium text-slate-400">{m.label}</p>
       <p className="mt-1.5 font-heading text-[22px] font-bold leading-none tracking-tight text-white">
         {m.prefix}{n}{m.suffix}
       </p>
@@ -383,9 +386,9 @@ function GenerateControl({
     return (
       <motion.button
         onClick={onRun}
-        whileHover={{ scale: 1.04 }}
-        whileTap={{ scale: 0.97 }}
-        className="inline-flex items-center gap-2 rounded-full bg-[#00B5FF] px-5 py-2.5 text-[13px] font-semibold text-white shadow-[0_16px_40px_-14px_rgba(0,181,255,0.6)]"
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        className="relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-[#00B5FF] to-[#0080FF] px-5 py-2.5 text-[13px] font-semibold text-white shadow-[0_0_20px_rgba(0,181,255,0.4)] transition-all hover:shadow-[0_0_28px_rgba(0,181,255,0.6)]"
       >
         <Sparkles size={15} />
         Generate Report
@@ -397,28 +400,28 @@ function GenerateControl({
     const label = step >= GEN_STEPS.length ? "Completed Successfully" : GEN_STEPS[step];
     const pct = Math.round((step / GEN_STEPS.length) * 100);
     return (
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 rounded-full border border-slate-800 bg-slate-900/80 px-4 py-2">
         <div className="hidden sm:block">
           <div className="flex items-center gap-2">
-            <Loader2 size={14} className="animate-spin text-[#22D3EE]" />
+            <Loader2 size={14} className="animate-spin text-[#00E5FF]" />
             <AnimatePresence mode="wait">
               <motion.span
                 key={label}
-                initial={{ opacity: 0, y: 6 }}
+                initial={{ opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -6 }}
-                transition={{ duration: 0.3 }}
-                className="text-[12px] font-medium text-white/70"
+                exit={{ opacity: 0, y: -4 }}
+                transition={{ duration: 0.2 }}
+                className="text-[12px] font-medium text-slate-300"
               >
                 {label}…
               </motion.span>
             </AnimatePresence>
           </div>
-          <div className="mt-1.5 h-1 w-44 overflow-hidden rounded-full bg-white/[0.08]">
+          <div className="mt-1.5 h-1 w-44 overflow-hidden rounded-full bg-slate-800">
             <motion.div
               animate={{ width: `${pct}%` }}
               transition={{ duration: 0.4, ease: EASE }}
-              className="h-full rounded-full bg-gradient-to-r from-[#00B5FF] to-[#22D3EE]"
+              className="h-full rounded-full bg-gradient-to-r from-[#00B5FF] to-[#00E5FF]"
             />
           </div>
         </div>
@@ -429,26 +432,26 @@ function GenerateControl({
   // done
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
+      initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={SPRING}
       className="flex items-center gap-3"
     >
-      <span className="hidden items-center gap-1.5 text-[13px] font-medium text-[#22C55E] sm:flex">
+      <span className="hidden items-center gap-1.5 text-[13px] font-medium text-[#10B981] sm:flex">
         <CheckCircle2 size={16} /> Report Ready
       </span>
       <motion.button
-        whileHover={{ scale: 1.04 }}
-        whileTap={{ scale: 0.97 }}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
         animate={{
           boxShadow: [
-            "0 0 24px -6px rgba(0,181,255,0.5)",
-            "0 0 40px -4px rgba(0,181,255,0.85)",
-            "0 0 24px -6px rgba(0,181,255,0.5)",
+            "0 0 16px rgba(0,181,255,0.3)",
+            "0 0 28px rgba(0,181,255,0.7)",
+            "0 0 16px rgba(0,181,255,0.3)",
           ],
         }}
         transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        className="inline-flex items-center gap-2 rounded-full bg-[#00B5FF] px-5 py-2.5 text-[13px] font-semibold text-white"
+        className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#00B5FF] to-[#0080FF] px-5 py-2.5 text-[13px] font-semibold text-white"
       >
         <Download size={15} />
         Download PDF
@@ -457,15 +460,14 @@ function GenerateControl({
   );
 }
 
-
 /* ══════════════════════ TEMPLATE CARD ══════════════════════ */
 
 const cardV = {
-  hidden: { opacity: 0, y: 26 },
+  hidden: { opacity: 0, y: 20 },
   visible: (i) => ({
     opacity: 1,
     y: 0,
-    transition: { delay: i * 0.07, duration: 0.55, ease: EASE },
+    transition: { delay: i * 0.05, duration: 0.4, ease: EASE },
   }),
 };
 
@@ -482,36 +484,39 @@ function TemplateCard({
       variants={cardV}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-40px" }}
-      whileHover={{ y: -6 }}
+      viewport={{ once: true, margin: "-20px" }}
+      whileHover={{ y: -4 }}
       onClick={onSelect}
-      className="group relative overflow-hidden rounded-3xl p-[1px] text-left"
+      className={`group relative flex flex-col justify-between overflow-hidden rounded-2xl border text-left transition-all duration-300 ${
+        selected
+          ? "border-[#00B5FF] bg-slate-900/90 shadow-[0_0_30px_rgba(0,181,255,0.25)]"
+          : "border-slate-800/90 bg-[#0A0F1D]/80 hover:border-slate-700 hover:bg-slate-900/60 hover:shadow-[0_0_20px_rgba(0,181,255,0.12)]"
+      }`}
     >
-      {/* gradient border */}
-      <div
-        className={`absolute inset-0 rounded-3xl bg-gradient-to-br ${tpl.gradient} opacity-30 transition-opacity duration-300 group-hover:opacity-100 ${
-          selected ? "opacity-100" : ""
-        }`}
-      />
-      <div
-        className="relative h-full rounded-3xl p-6"
-        style={{ background: "rgba(14,20,30,.92)" }}
-      >
-        <div className={`grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br ${tpl.gradient}`}>
-          <Icon size={22} className="text-white" />
+      {/* Background Soft Inner Glow */}
+      <div className="pointer-events-none absolute -right-12 -top-12 h-36 w-36 rounded-full bg-[#00B5FF]/5 blur-2xl transition-all duration-500 group-hover:bg-[#00B5FF]/15" />
+
+      <div className="relative p-6">
+        <div className="flex items-center justify-between">
+          <div className={`grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br ${tpl.gradient} shadow-md`}>
+            <Icon size={20} className="text-white" />
+          </div>
+          <span className="flex items-center gap-1.5 rounded-full border border-slate-800 bg-slate-900/80 px-2.5 py-1 text-[11px] font-medium text-slate-400">
+            <Loader2 size={11} className="text-slate-500" /> Est. {tpl.time}
+          </span>
         </div>
-        <p className="mt-5 font-heading text-[16px] font-bold tracking-tight text-white">
+
+        <h3 className="mt-5 font-heading text-[16px] font-bold tracking-tight text-white group-hover:text-[#00B5FF] transition-colors">
           {tpl.title}
-        </p>
-        <p className="mt-2 text-[13px] leading-relaxed text-white/55">{tpl.desc}</p>
-        <div className="mt-5 flex items-center justify-between">
-          <span className="flex items-center gap-1.5 text-[11px] text-white/40">
-            <Loader2 size={12} /> Est. {tpl.time}
-          </span>
-          <span className="text-[12px] font-medium text-[#22D3EE] opacity-0 transition-opacity group-hover:opacity-100">
-            {selected ? "Selected" : "Preview →"}
-          </span>
-        </div>
+        </h3>
+        <p className="mt-2 text-[13px] leading-relaxed text-slate-400">{tpl.desc}</p>
+      </div>
+
+      <div className="relative border-t border-slate-800/60 bg-slate-950/30 px-6 py-3.5 flex items-center justify-between">
+        <span className="text-[12px] font-medium text-slate-400">Template Format</span>
+        <span className="flex items-center gap-1 text-[12px] font-semibold text-[#00E5FF] opacity-80 transition-all duration-300 group-hover:translate-x-0.5 group-hover:opacity-100">
+          {selected ? "Active" : "Preview"} <ChevronRight size={14} />
+        </span>
       </div>
     </motion.button>
   );
@@ -528,40 +533,64 @@ export default function Dashboard() {
 
   return (
     <main className="mx-auto max-w-[1400px] px-5 py-8 lg:px-8">
+      {/* Header Section */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: EASE }}
+        transition={{ duration: 0.5, ease: EASE }}
+        className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between"
       >
-        <div className="flex items-center gap-2 text-[13px] font-medium text-[#4FC9FF]">
-          <Sparkles size={15} /> Generate Intelligence Reports
-        </div>
-        <h1 className="mt-2 font-heading text-[30px] font-bold tracking-[-0.03em] text-white sm:text-[36px]">
-          Executive <span className="text-[#22D3EE]">Reports</span>
-        </h1>
-        <p className="mt-1.5 max-w-[560px] text-[15px] text-white/55">
-          Choose a template to preview a board-ready report, then generate a polished PDF
-          powered by live ATHLONIX intelligence.
-        </p>
+        <div>
+          <div className="flex items-center gap-2 text-[12px] font-semibold tracking-wider text-[#00B5FF] uppercase">
+            <Sparkles size={14} /> Intelligence Platform
+          </div>
+          <h1 className="mt-1 font-heading text-[30px] font-bold tracking-tight text-white sm:text-[36px]">
+            Executive <span className="bg-gradient-to-r from-[#00B5FF] to-[#00E5FF] bg-clip-text text-transparent">Reports</span>
+          </h1>
+          <p className="mt-1 max-w-[560px] text-[14px] text-slate-400 leading-relaxed">
+            Choose a template to preview a board-ready report, then generate a polished PDF
+            powered by live ATHLONIX intelligence.
+          </p>
 
-        {loadedAthlete && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.15, ease: EASE }}
-            className="mt-5 inline-flex items-center gap-3 rounded-full border border-[#00B5FF]/25 bg-[#00B5FF]/[0.06] px-4 py-2.5"
-          >
-            <div className="grid h-7 w-7 place-items-center rounded-lg bg-gradient-to-br from-[#00B5FF]/30 to-[#22D3EE]/10 text-[10px] font-bold text-white">
-              {loadedAthlete.initials}
-            </div>
-            <span className="text-[13px] text-white/75">
-              Athlete data loaded — <span className="font-medium text-white">{loadedAthlete.name}</span>, {loadedAthlete.club}
-            </span>
-          </motion.div>
-        )}
+          {loadedAthlete && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.1, ease: EASE }}
+              className="mt-4 inline-flex items-center gap-2.5 rounded-full border border-slate-800 bg-slate-900/60 px-3.5 py-1.5 backdrop-blur-md"
+            >
+              <div className="grid h-6 w-6 place-items-center rounded-full bg-[#00B5FF]/20 text-[10px] font-bold text-[#00B5FF]">
+                {loadedAthlete.initials}
+              </div>
+              <span className="text-[12px] text-slate-300">
+                Loaded: <span className="font-semibold text-white">{loadedAthlete.name}</span> ({loadedAthlete.club})
+              </span>
+            </motion.div>
+          )}
+        </div>
+
+        {/* Dashboard-Style Header Controls */}
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="relative flex-1 sm:w-64 sm:flex-none">
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" size={15} />
+            <input
+              type="text"
+              placeholder="Search reports..."
+              className="w-full rounded-full border border-slate-800 bg-slate-900/90 pl-9 pr-4 py-2 text-[13px] text-white placeholder-slate-500 transition-colors focus:border-[#00B5FF] focus:outline-none"
+            />
+          </div>
+
+          <button className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-slate-900/90 px-4 py-2 text-[13px] font-medium text-slate-300 transition-colors hover:border-slate-700 hover:text-white">
+            <Filter size={14} /> Filter
+          </button>
+
+          <button className="inline-flex items-center gap-2 rounded-full border border-slate-800 bg-slate-900/90 px-4 py-2 text-[13px] font-medium text-slate-300 transition-colors hover:border-slate-700 hover:text-white">
+            2025 – 2026
+          </button>
+        </div>
       </motion.div>
 
-      {/* Template cards */}
+      {/* Template cards grid */}
       <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {TEMPLATES.map((t, i) => (
           <TemplateCard
@@ -579,7 +608,7 @@ export default function Dashboard() {
         {tpl && <ReportPreview key={tpl.id} tpl={tpl} onClose={() => setSelected(null)} />}
       </AnimatePresence>
 
-      <p className="mt-8 text-[12px] text-white/30">
+      <p className="mt-8 text-center text-[12px] text-slate-600">
         Figures are illustrative sample data for the ATHLONIX platform preview.
       </p>
     </main>

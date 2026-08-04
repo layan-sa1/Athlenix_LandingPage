@@ -23,8 +23,8 @@ import {
   fraudColor,
 } from "../../components/claimData";
 
-const BLUE = "#00B5FF";
-const CYAN = "#22D3EE";
+const BLUE = "#3B82F6";
+const CYAN = "#60A5FA";
 const sar = (n) => `SAR ${n.toLocaleString()}`;
 
 /* ══════════════════════ KPI ══════════════════════ */
@@ -59,18 +59,17 @@ function KpiCard({ k, i }) {
   const Icon = k.icon;
   return (
     <motion.div ref={ref} initial={{ opacity: 0, y: 22 }} animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.55, delay: i * 0.08, ease: EASE }} whileHover={{ y: -4 }}
-      className="group relative flex flex-col overflow-hidden rounded-2xl border border-white/[0.08] p-6 transition-colors duration-300 hover:border-white/[0.16]"
-      style={{ background: "rgba(14,20,30,.72)", boxShadow: "inset 0 1px 0 0 rgba(255,255,255,0.05)" }}>
+      transition={{ duration: 0.55, delay: i * 0.08, ease: EASE }} whileHover={{ y: -2 }}
+      className="group relative flex flex-col overflow-hidden rounded-2xl border border-white/[0.05] bg-[#0B0F1D] p-6 transition-all duration-300 hover:border-[rgba(59,130,246,0.25)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.5)]">
       <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-        style={{ background: "radial-gradient(80% 60% at 50% 120%, rgba(0,181,255,0.14), transparent 70%)" }} />
+        style={{ background: "radial-gradient(80% 60% at 50% 120%, rgba(59,130,246,0.08), transparent 70%)" }} />
       <div className="relative flex items-center justify-between">
-        <div className="grid h-9 w-9 place-items-center rounded-xl border border-white/[0.08] bg-white/[0.03]"><Icon size={16} className="text-[#22D3EE]" /></div>
-        <span className={`text-[13px] font-medium ${k.up ? "text-[#22C55E]" : "text-[#EF4444]"}`}>{k.delta}</span>
+        <div className="grid h-9 w-9 place-items-center rounded-xl border border-white/[0.05] bg-[#11162B] text-[#60A5FA]"><Icon size={16} /></div>
+        <span className={`text-[12px] font-medium ${k.up ? "text-[#22C55E]" : "text-[#EF4444]"}`}>{k.delta}</span>
       </div>
       <p className="relative mt-4 font-heading text-[28px] font-bold leading-none tracking-tight text-white">{n}</p>
-      <p className="relative mt-1.5 text-[13px] text-white/55">{k.label}</p>
-      <div className="relative mt-3"><Sparkline data={k.spark} color={k.up ? CYAN : "#EF4444"} /></div>
+      <p className="relative mt-1.5 text-[13px] text-white/50">{k.label}</p>
+      <div className="relative mt-3"><Sparkline data={k.spark} color={k.up ? BLUE : "#EF4444"} /></div>
     </motion.div>
   );
 }
@@ -82,8 +81,7 @@ function Panel({ title, children, className = "", delay = 0 }) {
   const inView = useInView(ref, { once: true, margin: "-60px" });
   return (
     <motion.section ref={ref} initial={{ opacity: 0, y: 26 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay, ease: EASE }}
-      className={`flex flex-col rounded-2xl border border-white/[0.08] p-6 transition-colors duration-300 hover:border-white/[0.14] ${className}`}
-      style={{ background: "rgba(14,20,30,.72)", boxShadow: "inset 0 1px 0 0 rgba(255,255,255,0.05)" }}>
+      className={`flex flex-col rounded-2xl border border-white/[0.05] bg-[#0B0F1D] p-6 transition-all duration-300 hover:border-[rgba(59,130,246,0.25)] ${className}`}>
       <p className="mb-5 font-heading text-[15px] font-bold tracking-tight text-white">{title}</p>
       <div className="flex-1">{children}</div>
     </motion.section>
@@ -97,8 +95,8 @@ function SportDonut() {
   const inView = useInView(ref, { once: true, margin: "-40px" });
   const [hover, setHover] = useState(null);
   const data = [
-    { label: "Football", value: 214, color: "#00B5FF" },
-    { label: "Basketball", value: 68, color: "#22D3EE" },
+    { label: "Football", value: 214, color: "#3B82F6" },
+    { label: "Basketball", value: 68, color: "#60A5FA" },
     { label: "Volleyball", value: 34, color: "#8B5CF6" },
     { label: "Tennis", value: 16, color: "#EAB308" },
     { label: "Swimming", value: 10, color: "#22C55E" },
@@ -131,8 +129,8 @@ function SportDonut() {
       <div className="flex-1 space-y-1.5">
         {data.map((s, i) => (
           <button key={s.label} onMouseEnter={() => setHover(i)} onMouseLeave={() => setHover(null)}
-            className={`flex w-full items-center justify-between rounded-lg px-2 py-1 transition-colors ${hover === i ? "bg-white/[0.05]" : "hover:bg-white/[0.03]"}`}>
-            <span className="flex items-center gap-2 text-[12px] text-white/70"><span className="h-2.5 w-2.5 rounded-sm" style={{ background: s.color }} />{s.label}</span>
+            className={`flex w-full items-center justify-between rounded-lg px-2 py-1 transition-colors ${hover === i ? "bg-[#11162B]" : "hover:bg-white/[0.02]"}`}>
+            <span className="flex items-center gap-2 text-[12px] text-white/60"><span className="h-2.5 w-2.5 rounded-sm" style={{ background: s.color }} />{s.label}</span>
             <span className="text-[12px] font-medium text-white">{s.value}</span>
           </button>
         ))}
@@ -157,9 +155,9 @@ function InjuryBars() {
           <div className="mb-1 flex items-center justify-between text-[12px]">
             <span className="text-white/60">{d.label}</span><span className="font-medium text-white/80">{d.value}</span>
           </div>
-          <div className="h-2 overflow-hidden rounded-full bg-white/[0.06]">
+          <div className="h-2 overflow-hidden rounded-full bg-[#11162B]">
             <motion.div initial={{ width: 0 }} animate={inView ? { width: `${(d.value / max) * 100}%` } : {}}
-              transition={{ duration: 0.9, delay: i * 0.08, ease: EASE }} className="h-full rounded-full bg-gradient-to-r from-[#00B5FF] to-[#22D3EE]" />
+              transition={{ duration: 0.9, delay: i * 0.08, ease: EASE }} className="h-full rounded-full bg-gradient-to-r from-[#3B82F6] to-[#60A5FA]" />
           </div>
         </div>
       ))}
@@ -178,7 +176,7 @@ function MonthlyLine() {
   return (
     <div ref={ref}>
       <svg viewBox={`0 0 ${W} ${H}`} className="h-[130px] w-full" fill="none" preserveAspectRatio="none">
-        <defs><linearGradient id="ml" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor={BLUE} stopOpacity="0.28" /><stop offset="100%" stopColor={BLUE} stopOpacity="0" /></linearGradient></defs>
+        <defs><linearGradient id="ml" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor={BLUE} stopOpacity="0.25" /><stop offset="100%" stopColor={BLUE} stopOpacity="0" /></linearGradient></defs>
         <motion.polygon points={area} fill="url(#ml)" initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}} transition={{ duration: 1, delay: 0.5 }} />
         <motion.polyline points={line} stroke={BLUE} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
           initial={{ pathLength: 0 }} animate={inView ? { pathLength: 1 } : {}} transition={{ duration: 1.5, ease: EASE }} vectorEffect="non-scaling-stroke" />
@@ -194,14 +192,14 @@ function StatusStack() {
   const seg = [
     { label: "Approved", value: 218, color: "#22C55E" },
     { label: "Pending", value: 47, color: "#EAB308" },
-    { label: "Investigating", value: 28, color: "#22D3EE" },
+    { label: "Investigating", value: 28, color: "#60A5FA" },
     { label: "Paid", value: 18, color: "#8B5CF6" },
     { label: "Rejected", value: 31, color: "#EF4444" },
   ];
   const total = seg.reduce((a, b) => a + b.value, 0);
   return (
     <div ref={ref} className="flex h-full flex-col justify-center">
-      <div className="flex h-4 w-full overflow-hidden rounded-full">
+      <div className="flex h-3.5 w-full overflow-hidden rounded-full bg-[#11162B]">
         {seg.map((s, i) => (
           <motion.div key={s.label} initial={{ width: 0 }} animate={inView ? { width: `${(s.value / total) * 100}%` } : {}}
             transition={{ duration: 0.9, delay: i * 0.1, ease: EASE }} style={{ background: s.color }} />
@@ -210,7 +208,7 @@ function StatusStack() {
       <div className="mt-5 grid grid-cols-2 gap-2.5">
         {seg.map((s) => (
           <div key={s.label} className="flex items-center justify-between">
-            <span className="flex items-center gap-2 text-[12px] text-white/65"><span className="h-2.5 w-2.5 rounded-sm" style={{ background: s.color }} />{s.label}</span>
+            <span className="flex items-center gap-2 text-[12px] text-white/60"><span className="h-2 w-2 rounded-sm" style={{ background: s.color }} />{s.label}</span>
             <span className="text-[12px] font-medium text-white">{s.value}</span>
           </div>
         ))}
@@ -230,6 +228,7 @@ function stageIndex(status) {
     case "Approved": return 4;
     case "Paid": return 6;
     case "Rejected": return 3;
+    default: return 0;
   }
 }
 
@@ -239,21 +238,21 @@ function ClaimRow({ c, i, onView }) {
     <>
       <motion.tr initial={{ opacity: 0, x: -14 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
         transition={{ duration: 0.45, delay: i * 0.04, ease: EASE }} onClick={() => setOpen((v) => !v)}
-        className="cursor-pointer border-t border-white/[0.05] text-[13px] transition-colors hover:bg-white/[0.03]">
+        className="cursor-pointer border-t border-white/[0.05] text-[13px] transition-colors hover:bg-[#11162B]/50">
         <td className="whitespace-nowrap px-5 py-4 font-medium text-white">{c.id}</td>
         <td className="whitespace-nowrap px-5 py-4">
           <div className="flex items-center gap-2.5">
-            <div className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-[#00B5FF]/25 to-[#22D3EE]/10 text-[11px] font-bold text-white">{c.initials}</div>
+            <div className="grid h-8 w-8 place-items-center rounded-lg bg-[#11162B] border border-white/[0.05] text-[11px] font-bold text-[#60A5FA]">{c.initials}</div>
             <span className="text-white">{c.athlete}</span>
           </div>
         </td>
-        <td className="whitespace-nowrap px-5 py-4 text-white/65">{c.club}</td>
-        <td className="whitespace-nowrap px-5 py-4 text-white/65">{c.injuryDetail}</td>
+        <td className="whitespace-nowrap px-5 py-4 text-white/60">{c.club}</td>
+        <td className="whitespace-nowrap px-5 py-4 text-white/60">{c.injuryDetail}</td>
         <td className="whitespace-nowrap px-5 py-4 text-white/80">{sar(c.amount)}</td>
-        <td className="whitespace-nowrap px-5 py-4 text-white/60">{c.date}</td>
+        <td className="whitespace-nowrap px-5 py-4 text-white/50">{c.date}</td>
         <td className="whitespace-nowrap px-5 py-4"><span className={`rounded-full border px-2.5 py-1 text-[11px] font-medium ${CLAIM_STATUS_STYLE[c.status]}`}>{c.status}</span></td>
         <td className="whitespace-nowrap px-5 py-4">
-          <button onClick={(e) => { e.stopPropagation(); onView(); }} className="text-[12px] font-medium text-[#22D3EE] hover:opacity-80">View Details</button>
+          <button onClick={(e) => { e.stopPropagation(); onView(); }} className="text-[12px] font-medium text-[#60A5FA] hover:text-[#3B82F6]">View Details</button>
         </td>
       </motion.tr>
 
@@ -263,7 +262,7 @@ function ClaimRow({ c, i, onView }) {
             <td colSpan={8} className="p-0">
               <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }}
                 transition={{ duration: 0.4, ease: EASE }} className="overflow-hidden">
-                <div className="grid gap-6 border-t border-white/[0.05] bg-white/[0.02] px-5 py-6 lg:grid-cols-[1.4fr_1fr]">
+                <div className="grid gap-6 border-t border-white/[0.05] bg-[#0B0F1D]/60 px-5 py-6 lg:grid-cols-[1.4fr_1fr]">
                   <div className="grid gap-4 sm:grid-cols-2">
                     <Field label="Athlete" value={c.athlete} />
                     <Field label="Club" value={c.club} />
@@ -277,26 +276,26 @@ function ClaimRow({ c, i, onView }) {
                     </div>
                     <div className="sm:col-span-2 flex flex-wrap gap-1.5">
                       {["Medical report.pdf", "Imaging scan.pdf", "Club statement.pdf"].map((d) => (
-                        <span key={d} className="flex items-center gap-1.5 rounded-full border border-white/[0.1] bg-white/[0.03] px-2.5 py-1 text-[11px] text-white/55"><FileText size={11} /> {d}</span>
+                        <span key={d} className="flex items-center gap-1.5 rounded-full border border-white/[0.05] bg-[#11162B] px-2.5 py-1 text-[11px] text-white/60"><FileText size={11} /> {d}</span>
                       ))}
                     </div>
                   </div>
 
                   <div className="space-y-4">
                     {/* Fraud risk */}
-                    <div className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-4">
+                    <div className="rounded-xl border border-white/[0.05] bg-[#11162B] p-4">
                       <div className="flex items-center justify-between">
                         <span className="flex items-center gap-1.5 text-[12px] text-white/55"><ShieldAlert size={13} /> Fraud Risk Score</span>
                         <span className="text-[14px] font-bold" style={{ color: fraudColor(c.fraudRisk) }}>{c.fraudRisk}</span>
                       </div>
-                      <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/[0.06]">
+                      <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/[0.05]">
                         <motion.div initial={{ width: 0 }} animate={{ width: `${c.fraudRisk}%` }} transition={{ duration: 0.9, ease: EASE }}
                           className="h-full rounded-full" style={{ background: fraudColor(c.fraudRisk) }} />
                       </div>
                     </div>
                     {/* AI rec */}
-                    <div className="rounded-xl border border-[#00B5FF]/20 bg-[#00B5FF]/[0.06] p-3.5">
-                      <p className="flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-[0.12em] text-[#4FC9FF]"><Sparkles size={12} /> AI Recommendation</p>
+                    <div className="rounded-xl border border-[#3B82F6]/20 bg-[#3B82F6]/[0.08] p-3.5">
+                      <p className="flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-[0.12em] text-[#60A5FA]"><Sparkles size={12} /> AI Recommendation</p>
                       <p className="mt-1.5 text-[13px] text-white/75">{c.insight}</p>
                     </div>
                     <MiniTimeline status={c.status} />
@@ -322,8 +321,8 @@ function MiniTimeline({ status }) {
           return (
             <motion.div key={s} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.06, duration: 0.4 }} className="flex gap-3 pb-3 last:pb-0">
               <div className="flex flex-col items-center">
-                <span className={`mt-0.5 h-2.5 w-2.5 rounded-full ${done ? "bg-[#00B5FF]" : "bg-white/15"}`} />
-                {i < TIMELINE_STAGES.length - 1 && <span className={`w-px flex-1 ${done ? "bg-[#00B5FF]/40" : "bg-white/[0.08]"}`} />}
+                <span className={`mt-0.5 h-2.5 w-2.5 rounded-full ${done ? "bg-[#3B82F6]" : "bg-white/15"}`} />
+                {i < TIMELINE_STAGES.length - 1 && <span className={`w-px flex-1 ${done ? "bg-[#3B82F6]/40" : "bg-white/[0.08]"}`} />}
               </div>
               <p className={`pb-0.5 text-[12px] ${done ? "text-white/80" : "text-white/35"}`}>{s}</p>
             </motion.div>
@@ -344,16 +343,16 @@ function SlideOver({ c, onClose }) {
   const active = stageIndex(c.status);
   return (
     <motion.div className="fixed inset-0 z-50 flex justify-end" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-      <motion.div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
+      <motion.div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onClose} />
       <motion.aside initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 260, damping: 32 }}
-        className="relative z-10 flex h-full w-full max-w-[460px] flex-col overflow-y-auto border-l border-white/[0.1]" style={{ background: "rgba(12,18,26,.96)" }}>
-        <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full blur-3xl" style={{ background: "rgba(0,181,255,0.16)" }} />
-        <div className="sticky top-0 z-10 flex items-center justify-between border-b border-white/[0.08] bg-[#0c121a]/90 px-6 py-5 backdrop-blur-xl">
+        className="relative z-10 flex h-full w-full max-w-[460px] flex-col overflow-y-auto border-l border-white/[0.08] bg-[#060811]">
+        <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full blur-3xl" style={{ background: "rgba(59,130,246,0.12)" }} />
+        <div className="sticky top-0 z-10 flex items-center justify-between border-b border-white/[0.05] bg-[#060811]/90 px-6 py-5 backdrop-blur-xl">
           <div className="flex items-center gap-3">
-            <div className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-[#00B5FF]/30 to-[#22D3EE]/10 text-[13px] font-bold text-white">{c.initials}</div>
+            <div className="grid h-10 w-10 place-items-center rounded-xl bg-[#11162B] border border-white/[0.05] text-[13px] font-bold text-[#60A5FA]">{c.initials}</div>
             <div><p className="font-heading text-[16px] font-bold tracking-tight text-white">{c.id}</p><p className="text-[12px] text-white/45">{c.athlete} · {c.club}</p></div>
           </div>
-          <button onClick={onClose} className="grid h-9 w-9 place-items-center rounded-full border border-white/[0.1] text-white/50 transition-colors hover:text-white"><X size={16} /></button>
+          <button onClick={onClose} className="grid h-9 w-9 place-items-center rounded-full border border-white/[0.05] bg-[#11162B] text-white/50 transition-colors hover:text-white"><X size={16} /></button>
         </div>
 
         <div className="relative space-y-6 px-6 py-6">
@@ -380,10 +379,10 @@ function SlideOver({ c, onClose }) {
                 return (
                   <motion.div key={s} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 + i * 0.07 }} className="flex gap-3 pb-3.5 last:pb-0">
                     <div className="flex flex-col items-center">
-                      <span className={`mt-0.5 grid h-4 w-4 place-items-center rounded-full ${done ? "bg-[#00B5FF]" : "border border-white/20 bg-transparent"}`}>
+                      <span className={`mt-0.5 grid h-4 w-4 place-items-center rounded-full ${done ? "bg-[#3B82F6]" : "border border-white/20 bg-transparent"}`}>
                         {done && <CheckCircle2 size={10} className="text-white" />}
                       </span>
-                      {i < TIMELINE_STAGES.length - 1 && <span className={`w-px flex-1 ${done ? "bg-[#00B5FF]/40" : "bg-white/[0.08]"}`} style={{ minHeight: 14 }} />}
+                      {i < TIMELINE_STAGES.length - 1 && <span className={`w-px flex-1 ${done ? "bg-[#3B82F6]/40" : "bg-white/[0.08]"}`} style={{ minHeight: 14 }} />}
                     </div>
                     <p className={`text-[13px] ${done ? "text-white/80" : "text-white/35"}`}>{s}</p>
                   </motion.div>
@@ -393,12 +392,12 @@ function SlideOver({ c, onClose }) {
           </Section>
 
           <Section title="AI Risk Analysis">
-            <div className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-4">
+            <div className="rounded-xl border border-white/[0.05] bg-[#0B0F1D] p-4">
               <div className="flex items-center justify-between">
                 <span className="text-[12px] text-white/55">Fraud risk score</span>
                 <span className="text-[16px] font-bold" style={{ color: fraudColor(c.fraudRisk) }}>{c.fraudRisk}/100</span>
               </div>
-              <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/[0.06]">
+              <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-[#11162B]">
                 <motion.div initial={{ width: 0 }} animate={{ width: `${c.fraudRisk}%` }} transition={{ duration: 1, ease: EASE }} className="h-full rounded-full" style={{ background: fraudColor(c.fraudRisk) }} />
               </div>
               <p className="mt-3 text-[13px] text-white/70">{c.insight}</p>
@@ -413,19 +412,21 @@ function SlideOver({ c, onClose }) {
           </Section>
         </div>
 
-        <div className="sticky bottom-0 mt-auto grid grid-cols-2 gap-2 border-t border-white/[0.08] bg-[#0c121a]/90 p-4 backdrop-blur-xl">
+        <div className="sticky bottom-0 mt-auto grid grid-cols-2 gap-2 border-t border-white/[0.05] bg-[#060811]/90 p-4 backdrop-blur-xl">
           <RippleButton className="justify-center rounded-full bg-[#22C55E] py-3 text-[13px] font-semibold text-white"><CheckCircle2 size={14} /> Approve</RippleButton>
           <RippleButton className="justify-center rounded-full bg-[#EF4444] py-3 text-[13px] font-semibold text-white"><XCircle size={14} /> Reject</RippleButton>
-          <RippleButton className="justify-center rounded-full border border-white/[0.15] py-2.5 text-[12px] font-medium text-white">Request Docs</RippleButton>
-          <RippleButton className="justify-center rounded-full border border-white/[0.15] py-2.5 text-[12px] font-medium text-white"><Download size={13} /> Report</RippleButton>
+          <RippleButton className="justify-center rounded-full border border-white/[0.08] bg-[#11162B] py-2.5 text-[12px] font-medium text-white">Request Docs</RippleButton>
+          <RippleButton className="justify-center rounded-full border border-white/[0.08] bg-[#11162B] py-2.5 text-[12px] font-medium text-white"><Download size={13} /> Report</RippleButton>
         </div>
       </motion.aside>
     </motion.div>
   );
 }
+
 function Section({ title, children }) {
   return <div><p className="mb-3 text-[11px] uppercase tracking-[0.12em] text-white/40">{title}</p><div className="space-y-2.5">{children}</div></div>;
 }
+
 function Row2({ label, value }) {
   return <div className="flex items-center justify-between"><span className="text-[13px] text-white/50">{label}</span><span className="text-[13px] font-medium text-white/85">{value}</span></div>;
 }
@@ -443,34 +444,34 @@ function AIPanel() {
   ];
   return (
     <motion.section ref={ref} initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, ease: EASE }}
-      className="relative overflow-hidden rounded-2xl border border-[#00B5FF]/25 p-6 lg:p-8" style={{ background: "rgba(0,181,255,0.05)" }}>
-      <motion.div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full blur-3xl" style={{ background: "rgba(0,181,255,0.2)" }}
+      className="relative overflow-hidden rounded-2xl border border-[rgba(59,130,246,0.2)] bg-[#0B0F1D] p-6 lg:p-8">
+      <motion.div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full blur-3xl" style={{ background: "rgba(59,130,246,0.12)" }}
         animate={{ scale: [1, 1.15, 1], opacity: [0.6, 1, 0.6] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }} />
       <div className="relative grid gap-8 lg:grid-cols-[1.5fr_1fr]">
         <div>
           <div className="flex items-center gap-3">
-            <div className="relative grid h-11 w-11 place-items-center rounded-2xl border border-[#00B5FF]/30 bg-[#00B5FF]/10">
-              <Brain size={19} className="text-[#22D3EE]" /><span className="absolute inset-0 rounded-2xl border border-[#00B5FF]/40 motion-safe:animate-ping" />
+            <div className="relative grid h-11 w-11 place-items-center rounded-2xl border border-[rgba(59,130,246,0.3)] bg-[#11162B]">
+              <Brain size={19} className="text-[#60A5FA]" /><span className="absolute inset-0 rounded-2xl border border-[#3B82F6]/40 motion-safe:animate-ping" />
             </div>
             <div><p className="font-heading text-[16px] font-bold tracking-tight text-white">AI Claims Intelligence</p><p className="text-[12px] text-white/45">Today's summary · model v4.2</p></div>
           </div>
           <div className="mt-5 space-y-3">
             {points.map((t, i) => (
               <motion.div key={t} initial={{ opacity: 0, x: -12 }} animate={inView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.5, delay: 0.3 + i * 0.1, ease: EASE }} className="flex items-start gap-2.5">
-                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#22D3EE]" /><span className="text-[14px] text-white/85">{t}</span>
+                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#60A5FA]" /><span className="text-[14px] text-white/85">{t}</span>
               </motion.div>
             ))}
           </div>
         </div>
         <div className="flex flex-col gap-4">
-          <div className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-5">
+          <div className="rounded-2xl border border-white/[0.05] bg-[#11162B] p-5">
             <p className="text-[11px] uppercase tracking-[0.14em] text-white/40">Estimated Coverage Impact</p>
             <p className="mt-2 font-heading text-[28px] font-bold tracking-tight text-white">SAR 428,000</p>
           </div>
-          <div className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-5">
+          <div className="rounded-2xl border border-white/[0.05] bg-[#11162B] p-5">
             <p className="text-[11px] uppercase tracking-[0.14em] text-white/40">Recommended Action</p>
             <p className="mt-2 text-[14px] leading-snug text-white/85">Review AI-generated claim recommendations before final approval.</p>
-            <RippleButton className="mt-4 w-full justify-center rounded-full bg-[#00B5FF] py-3 text-[13px] font-semibold text-white shadow-[0_16px_40px_-16px_rgba(0,181,255,0.7)]"><Sparkles size={15} /> View AI Recommendations</RippleButton>
+            <RippleButton className="mt-4 w-full justify-center rounded-full bg-[#3B82F6] py-3 text-[13px] font-semibold text-white shadow-[0_12px_24px_-8px_rgba(59,130,246,0.5)] transition-all hover:bg-[#2563EB]"><Sparkles size={15} /> View AI Recommendations</RippleButton>
           </div>
         </div>
       </div>
@@ -496,74 +497,86 @@ export default function Dashboard() {
   }, [query, status]);
 
   return (
-    <main className="mx-auto max-w-[1440px] px-5 py-8 lg:px-8">
-      {/* Header */}
-      <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: EASE }}
-        className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
-        <div>
-          <h1 className="font-heading text-[30px] font-bold tracking-[-0.03em] text-white sm:text-[38px]">Claims Management</h1>
-          <p className="mt-2 max-w-[600px] text-[15px] leading-relaxed text-white/55">Review, process and manage insurance claims submitted by insured sports clubs.</p>
-        </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <div className="flex items-center gap-2 rounded-full border px-3.5 py-2 transition-all duration-300"
-            style={{ borderColor: focused ? "rgba(0,181,255,0.5)" : "rgba(255,255,255,0.08)", background: "rgba(14,20,30,.6)", boxShadow: focused ? "0 0 0 4px rgba(0,181,255,0.1)" : "none" }}>
-            <Search size={15} className={focused ? "text-[#22D3EE]" : "text-white/40"} />
-            <input value={query} onChange={(e) => setQuery(e.target.value)} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
-              placeholder="Search claims…" className="w-40 bg-transparent text-[13px] text-white placeholder:text-white/35 focus:outline-none" />
+    <main className="min-h-screen bg-[#060811] text-white">
+      <div className="mx-auto max-w-[1440px] px-5 py-8 lg:px-8">
+        {/* Header */}
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: EASE }}
+          className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
+          <div>
+            <h1 className="font-heading text-[30px] font-bold tracking-[-0.03em] text-white sm:text-[38px]">Claims Management</h1>
+            <p className="mt-2 max-w-[600px] text-[15px] leading-relaxed text-white/55">Review, process and manage insurance claims submitted by insured sports clubs.</p>
           </div>
-          <button className="flex items-center gap-1.5 rounded-full border border-white/[0.1] bg-white/[0.02] px-3.5 py-2 text-[13px] text-white/70"><Filter size={14} /> Filter</button>
-          <RippleButton className="rounded-full border border-white/[0.15] px-4 py-2 text-[13px] font-medium text-white"><Download size={14} /> Export</RippleButton>
-          <RippleButton className="rounded-full bg-[#00B5FF] px-4 py-2.5 text-[13px] font-semibold text-white shadow-[0_16px_40px_-16px_rgba(0,181,255,0.7)]"><Plus size={15} /> New Claim</RippleButton>
-        </div>
-      </motion.div>
-
-      {/* KPIs */}
-      <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">{KPIS.map((k, i) => <KpiCard key={k.label} k={k} i={i} />)}</div>
-
-      {/* Analytics */}
-      <div className="mt-5 grid grid-cols-1 gap-5 lg:grid-cols-2 xl:grid-cols-4">
-        <Panel title="Claims by Sport"><SportDonut /></Panel>
-        <Panel title="Claims by Injury Type" delay={0.06}><InjuryBars /></Panel>
-        <Panel title="Monthly Claims" delay={0.12}><MonthlyLine /></Panel>
-        <Panel title="Status Distribution" delay={0.18}><StatusStack /></Panel>
-      </div>
-
-      {/* Filters + table */}
-      <div className="mt-5 rounded-2xl border border-white/[0.08]" style={{ background: "rgba(14,20,30,.72)" }}>
-        <div className="flex flex-wrap items-center gap-2 border-b border-white/[0.06] px-5 py-4">
-          <span className="text-[11px] uppercase tracking-[0.1em] text-white/35">Status</span>
-          {["All", ...CLAIM_STATUSES].map((o) => (
-            <button key={o} onClick={() => setStatus(o)}
-              className={`rounded-full border px-3 py-1 text-[12px] font-medium transition-colors ${status === o ? "border-[#00B5FF]/40 bg-[#00B5FF]/12 text-white" : "border-white/[0.08] text-white/50 hover:text-white"}`}>{o}</button>
-          ))}
-          <span className="ml-auto text-[12px] text-white/40">{filtered.length} of {CLAIMS.length} claims</span>
-        </div>
-
-        {filtered.length === 0 ? (
-          <div className="flex flex-col items-center justify-center px-6 py-20 text-center">
-            <div className="grid h-16 w-16 place-items-center rounded-3xl border border-white/[0.08] bg-white/[0.02]"><Search size={26} className="text-white/30" /></div>
-            <p className="mt-5 font-heading text-[17px] font-bold text-white">No claims match your filters</p>
-            <p className="mt-1.5 max-w-[320px] text-[13px] text-white/45">Try a different search term or status.</p>
-            <RippleButton onClick={() => { setQuery(""); setStatus("All"); }} className="mt-6 rounded-full border border-white/[0.15] px-5 py-2.5 text-[13px] font-medium text-white">Clear filters</RippleButton>
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="flex items-center gap-2 rounded-full border px-3.5 py-2 transition-all duration-300"
+              style={{ borderColor: focused ? "rgba(59,130,246,0.5)" : "rgba(255,255,255,0.05)", background: "#0B0F1D", boxShadow: focused ? "0 0 0 4px rgba(59,130,246,0.1)" : "none" }}>
+              <Search size={15} className={focused ? "text-[#60A5FA]" : "text-white/40"} />
+              <input value={query} onChange={(e) => setQuery(e.target.value)} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
+                placeholder="Search claims…" className="w-40 bg-transparent text-[13px] text-white placeholder:text-white/35 focus:outline-none" />
+            </div>
+            <button className="flex items-center gap-1.5 rounded-full border border-white/[0.05] bg-[#0B0F1D] px-3.5 py-2 text-[13px] text-white/70 hover:border-white/[0.1] hover:bg-[#11162B]"><Filter size={14} /> Filter</button>
+            <RippleButton className="rounded-full border border-white/[0.05] bg-[#0B0F1D] px-4 py-2 text-[13px] font-medium text-white hover:border-white/[0.1] hover:bg-[#11162B]"><Download size={14} /> Export</RippleButton>
+            <RippleButton className="rounded-full bg-[#3B82F6] px-4 py-2.5 text-[13px] font-semibold text-white shadow-[0_12px_24px_-8px_rgba(59,130,246,0.5)] transition-all hover:bg-[#2563EB]"><Plus size={15} /> New Claim</RippleButton>
           </div>
-        ) : (
+        </motion.div>
+
+        {/* KPIs */}
+        <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">{KPIS.map((k, i) => <KpiCard key={k.label} k={k} i={i} />)}</div>
+
+        {/* Analytics */}
+        <div className="mt-5 grid grid-cols-1 gap-5 lg:grid-cols-2 xl:grid-cols-4">
+          <Panel title="Claims by Sport"><SportDonut /></Panel>
+          <Panel title="Claims by Injury Type" delay={0.06}><InjuryBars /></Panel>
+          <Panel title="Claims Trend" delay={0.12}><MonthlyLine /></Panel>
+          <Panel title="Status Distribution" delay={0.18}><StatusStack /></Panel>
+        </div>
+
+        {/* Table Filter Tabs */}
+        <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-wrap items-center gap-1.5 rounded-2xl border border-white/[0.05] bg-[#0B0F1D] p-1.5">
+            {CLAIM_STATUSES.map((st) => (
+              <button key={st} onClick={() => setStatus(st)}
+                className={`rounded-xl px-3.5 py-1.5 text-[13px] font-medium transition-all ${status === st ? "bg-[#3B82F6] text-white shadow-[0_4px_12px_rgba(59,130,246,0.3)]" : "text-white/60 hover:text-white hover:bg-white/[0.02]"}`}>
+                {st}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Table Panel */}
+        <div className="mt-4 overflow-hidden rounded-2xl border border-white/[0.05] bg-[#0B0F1D]">
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[980px] text-left">
-              <thead><tr className="text-[11px] uppercase tracking-[0.1em] text-white/40">
-                {["Claim ID", "Athlete", "Club", "Injury Type", "Coverage Amount", "Submitted", "Status", "Actions"].map((h) => <th key={h} className="px-5 py-3 font-medium">{h}</th>)}
-              </tr></thead>
-              <tbody>{filtered.map((c, i) => <Fragment key={c.id}><ClaimRow c={c} i={i} onView={() => setDetail(c)} /></Fragment>)}</tbody>
+            <table className="w-full text-left">
+              <thead>
+                <tr className="border-b border-white/[0.05] bg-[#11162B]/50 text-[11px] font-semibold uppercase tracking-[0.08em] text-white/40">
+                  <th className="px-5 py-3.5">Claim ID</th>
+                  <th className="px-5 py-3.5">Athlete</th>
+                  <th className="px-5 py-3.5">Club</th>
+                  <th className="px-5 py-3.5">Injury Detail</th>
+                  <th className="px-5 py-3.5">Amount</th>
+                  <th className="px-5 py-3.5">Date</th>
+                  <th className="px-5 py-3.5">Status</th>
+                  <th className="px-5 py-3.5">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filtered.map((c, i) => (
+                  <ClaimRow key={c.id} c={c} i={i} onView={() => setDetail(c)} />
+                ))}
+              </tbody>
             </table>
           </div>
-        )}
+        </div>
+
+        {/* AI Intelligence Section */}
+        <div className="mt-8">
+          <AIPanel />
+        </div>
       </div>
 
-      {/* AI panel */}
-      <div className="mt-5"><AIPanel /></div>
-
-      <p className="mt-8 text-[12px] text-white/30">Figures are illustrative sample data for the ATHLONIX platform preview.</p>
-
-      <AnimatePresence>{detail && <SlideOver c={detail} onClose={() => setDetail(null)} />}</AnimatePresence>
+      {/* Slide-Over Drawer */}
+      <AnimatePresence>
+        {detail && <SlideOver c={detail} onClose={() => setDetail(null)} />}
+      </AnimatePresence>
     </main>
   );
 }
