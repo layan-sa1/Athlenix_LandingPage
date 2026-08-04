@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { Building2, ShieldCheck } from 'lucide-react'
-import { useNavigate } from "react-router-dom";
 
 function useLiveNumber(target, decimals = 0, active = true) {
   const [display, setDisplay] = useState(0)
@@ -50,14 +49,12 @@ const PORTALS = {
   },
 }
 
-function PortalHalf({ portalKey, isWide, isHovered, isInView, onEnter, onPortalClick }) {
+function PortalHalf({ portalKey, isWide, isHovered, isInView, onEnter }) {
   const portal = PORTALS[portalKey]
   const Icon = portal.icon
   return (
     <div
       onMouseEnter={onEnter}
-      onClick={onPortalClick}
-
       className="relative overflow-hidden cursor-pointer flex flex-col justify-center px-8 md:px-12 py-14"
       style={{
         flexGrow: isWide ? 3 : 2,
@@ -107,18 +104,15 @@ function PortalHalf({ portalKey, isWide, isHovered, isInView, onEnter, onPortalC
         </div>
 
         <button
-  onClick={onPortalClick}
-  className="inline-flex items-center gap-2 text-sm font-medium px-5 py-2.5 rounded-full border transition-all duration-500"
-  style={{
-    color: isHovered ? "#fff" : "rgba(255,255,255,0.6)",
-    background: isHovered ? portal.accent : "transparent",
-    borderColor: isHovered
-      ? portal.accent
-      : "rgba(255,255,255,0.15)",
-  }}
->
-  Enter Portal <span aria-hidden="true">→</span>
-</button>
+          className="inline-flex items-center gap-2 text-sm font-medium px-5 py-2.5 rounded-full border transition-all duration-500"
+          style={{
+            color: isHovered ? '#fff' : 'rgba(255,255,255,0.6)',
+            background: isHovered ? portal.accent : 'transparent',
+            borderColor: isHovered ? portal.accent : 'rgba(255,255,255,0.15)',
+          }}
+        >
+          Enter Portal <span aria-hidden="true">→</span>
+        </button>
       </div>
     </div>
   )
@@ -139,12 +133,11 @@ function StatBlock({ stat, active }) {
 
 export default function ChoosePortal() {
   const [hovered, setHovered] = useState(null)
-  const navigate = useNavigate();
   const sectionRef = useRef(null)
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' })
 
   return (
-    <section ref={sectionRef} className="relative pt-6 pb-24 lg:pb-28 bg-[#FAFBFC] dark:bg-athlonix-dark overflow-hidden">
+    <section ref={sectionRef} className="relative pt-6 pb-24 lg:pb-28 bg-[#F2F2F4] dark:bg-athlonix-dark overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="text-center mb-14">
           <span className="text-xs font-medium text-athlonix-blue tracking-widest uppercase mb-4 block">
@@ -159,14 +152,7 @@ export default function ChoosePortal() {
           className="relative rounded-2xl overflow-hidden flex flex-col md:flex-row bg-white/80 dark:bg-[rgba(17,17,24,0.85)] backdrop-blur-2xl border border-gray-200 dark:border-white/[0.08]"
           onMouseLeave={() => setHovered(null)}
         >
-          <PortalHalf
-  portalKey="clubs"
-  isWide={hovered === "clubs"}
-  isHovered={hovered === "clubs"}
-  onEnter={() => setHovered("clubs")}
-  isInView={isInView}
-  onPortalClick={() => navigate("/clubs")}
-/>
+          <PortalHalf portalKey="clubs" isWide={hovered === 'clubs'} isHovered={hovered === 'clubs'} onEnter={() => setHovered('clubs')} isInView={isInView} />
 
           <div className="relative w-px hidden md:block" style={{ background: 'rgba(255,255,255,0.08)' }}>
             <div
@@ -181,14 +167,7 @@ export default function ChoosePortal() {
           </div>
           <div className="h-px w-full md:hidden bg-gray-200 dark:bg-white/10" />
 
-          <PortalHalf
-  portalKey="insurance"
-  isWide={hovered === "insurance"}
-  isHovered={hovered === "insurance"}
-  onEnter={() => setHovered("insurance")}
-  isInView={isInView}
-  onPortalClick={() => navigate("/insurance")}
-/>
+          <PortalHalf portalKey="insurance" isWide={hovered === 'insurance'} isHovered={hovered === 'insurance'} onEnter={() => setHovered('insurance')} isInView={isInView} />
         </div>
       </div>
     </section>

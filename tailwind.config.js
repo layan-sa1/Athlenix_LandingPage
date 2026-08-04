@@ -9,7 +9,7 @@ export default {
     extend: {
       colors: {
         'athlonix': {
-          blue: '#00B5FF',
+          blue: 'rgb(var(--athlonix-blue-rgb) / <alpha-value>)', // resolves via CSS variable — automatically darker in light mode, bright cyan in dark mode
           blueLight: '#00B5FF',
           blueText: '#0284C7', // WCAG-safer shade for text/borders on light backgrounds — #00B5FF alone fails contrast on white
           cyan: '#22D3EE',

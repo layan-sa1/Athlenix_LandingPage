@@ -253,9 +253,6 @@ export function PrivacySection() {
 // ─────────────────────────────── APPEARANCE ───────────────────────────────
 export function AppearanceSection() {
   const { theme, setTheme } = useTheme()
-  const [accent, setAccent] = useState('#00B5FF')
-  const [compact, setCompact] = useState(false)
-  const accents = ['#00B5FF', '#56A9BF', '#D4A855', '#D9824B', '#7C5CD9']
   const isDark = theme === 'dark'
 
   const themes = [
@@ -287,25 +284,6 @@ export function AppearanceSection() {
             )
           })}
         </div>
-      </SettingCard>
-
-      <SettingCard title="Accent Color">
-        <div className="flex items-center gap-3">
-          {accents.map((c) => (
-            <button
-              key={c}
-              onClick={() => setAccent(c)}
-              className="w-8 h-8 rounded-full transition-transform duration-200"
-              style={{ backgroundColor: c, transform: accent === c ? 'scale(1.15)' : 'scale(1)', boxShadow: accent === c ? `0 0 0 2px ${isDark ? '#0A0A0F' : '#FFFFFF'}, 0 0 0 4px ${c}` : 'none' }}
-            />
-          ))}
-        </div>
-      </SettingCard>
-
-      <SettingCard>
-        <SettingRow label="Compact mode" description="Reduce spacing for denser information display">
-          <Toggle checked={compact} onChange={setCompact} />
-        </SettingRow>
       </SettingCard>
     </div>
   )

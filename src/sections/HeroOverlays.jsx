@@ -58,13 +58,16 @@ function HeroTextScreen({ visible }) {
   return (
     <div className="pointer-events-auto max-w-md min-w-0" style={{ opacity: progress }}>
       <h2
-        className="font-display text-4xl md:text-5xl lg:text-5xl font-extrabold text-[#0B2A4A] dark:text-white leading-tight mb-4"
+        className="font-display text-4xl md:text-5xl lg:text-5xl font-extrabold text-[#0B1E33] dark:text-white leading-tight mb-4"
         style={{
           transform: `translateY(${(1 - progress) * 40}px)`,
           transition: 'none',
         }}
       >
-        <span className="whitespace-nowrap">The Future Changes</span> <br />Before It Happens
+        <span className="whitespace-nowrap">
+          The Future <span className="text-[#0369A1] dark:text-white">Changes</span>
+        </span>{' '}
+        <br />Before It Happens
       </h2>
       <p
         className="text-sm md:text-base text-gray-600 dark:text-white/50 mb-8 leading-relaxed max-w-md"
@@ -93,7 +96,7 @@ function HeroTextScreen({ visible }) {
         </a>
         <a
           href="#platform"
-          className="px-6 py-2.5 text-sm font-medium text-gray-600 dark:text-white/70 border border-gray-300 dark:border-white/15 rounded-full hover:border-gray-400 dark:hover:border-white/30 hover:text-gray-900 dark:hover:text-white transition-all duration-300"
+          className="px-6 py-2.5 text-sm font-medium text-gray-700 dark:text-white/70 border-[1.5px] border-gray-400 dark:border-white/15 rounded-full hover:border-gray-600 dark:hover:border-white/30 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-transparent transition-all duration-300"
         >
           Explore What We Offer
         </a>
@@ -106,7 +109,7 @@ function HeroTextScreen({ visible }) {
 function HeroContentScreen({ visible }) {
   if (!visible) return null
   return (
-    <div className="absolute inset-x-0 z-20 px-6" style={{ top: '57%' }}>
+    <div className="absolute inset-x-0 z-20 px-6" style={{ top: '53%' }}>
       <div className="max-w-7xl mx-auto">
         {/* Explicit width split (not flex-1) — the text and the card each get a fixed share of
             the row, so neither can grow into the other's space no matter the viewport width. */}
@@ -180,6 +183,7 @@ function usePerimeterNodesCompute(count) {
 }
 
 function NetworkFrameIntro({ playing, hovered }) {
+  const { theme } = useTheme()
   const nodes = useMemo(() => usePerimeterNodesCompute(22), [])
   const straightPerimeter = 2 * (FRAME_W - 2 * FRAME_R) + 2 * (FRAME_H - 2 * FRAME_R)
   const cornerPerimeter = 2 * Math.PI * FRAME_R
@@ -220,7 +224,7 @@ function NetworkFrameIntro({ playing, hovered }) {
       {/* a signal pulse that continuously travels the border once it's drawn — reads as "live
           AI system," not a one-time intro. Runs faster on hover. */}
       {playing && (
-        <circle r={hovered ? 3.2 : 2.4} fill="#EAF2F8">
+        <circle r={hovered ? 3.2 : 2.4} fill={theme === 'light' ? '#0369A1' : '#EAF2F8'}>
           <animateMotion dur={hovered ? '2.2s' : '3.6s'} repeatCount="indefinite" rotate="auto">
             <mpath href="#mini-frame-path" />
           </animateMotion>
@@ -233,7 +237,7 @@ function NetworkFrameIntro({ playing, hovered }) {
           cx={playing ? n.targetX : n.startX}
           cy={playing ? n.targetY : n.startY}
           r={2.2}
-          fill="#7FB3F0"
+          fill={theme === 'light' ? '#0369A1' : '#7FB3F0'}
           opacity={playing ? 0 : 1}
           style={{
             transition: `cx 0.8s cubic-bezier(0.16,1,0.3,1) ${n.delay}s, cy 0.8s cubic-bezier(0.16,1,0.3,1) ${n.delay}s, opacity 0.3s ease ${n.delay + 0.7}s`,

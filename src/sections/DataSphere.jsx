@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
+import { useTheme } from '../ThemeContext'
 
 const EASE = [0.22, 1, 0.36, 1]
 const DISSOLVE_S = 0.15
@@ -11,6 +12,7 @@ const DISSOLVE_S = 0.15
 // (re)compositing cycle, which is exactly the kind of thing that shows up as an occasional blank
 // beat. Nothing left to (re)build now — just which opacity is 1.
 export default function DataSphere({ balls, activeIndex = 0, onBallClick }) {
+  const { theme } = useTheme()
   const [decoded, setDecoded] = useState(false)
 
   useEffect(() => {
@@ -43,7 +45,9 @@ export default function DataSphere({ balls, activeIndex = 0, onBallClick }) {
             draggable={false}
             className="absolute inset-0 w-full h-full select-none object-contain"
             style={{
-              filter: 'drop-shadow(0 40px 80px rgba(0,0,0,0.55))',
+              filter: theme === 'light'
+                ? 'drop-shadow(0 20px 35px rgba(15,23,42,0.18))'
+                : 'drop-shadow(0 40px 80px rgba(0,0,0,0.55))',
               opacity: decoded && i === activeIndex ? 1 : 0,
               transition: `opacity ${DISSOLVE_S}s cubic-bezier(${EASE.join(',')})`,
               zIndex: i === activeIndex ? 1 : 0,

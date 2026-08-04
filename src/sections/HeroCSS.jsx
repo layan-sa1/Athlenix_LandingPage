@@ -7,19 +7,19 @@ const SIGNATURE_BLUE = '#00B5FF'
 const LIGHT_ACCENT = '#0369A1' // the ONE unified deep blue for light mode — navbar, heading accent, and every particle color derive from this
 const DIM_COLOR = '#5A6478'
 const DIM_COLOR_LIGHT = '#264A73' // darkened further for real contrast on white
-const CENTRAL_COUNT = 555
+const CENTRAL_COUNT = 1500
 const DISPERSE_FRACTION = 0.22
 const SATELLITE_COUNT = 4
 
 // Pure SVG/CSS re-interpretation of the same "data sphere" story as the WebGL Hero — an ellipse
 // of points standing in for a sphere viewed at an angle, animated with CSS transitions instead of
 // a render loop. No <canvas>, no WebGL, works on any device.
-function useCentralPoints() {
+function useCentralPoints(count) {
   return useMemo(() => {
     const arr = []
     const goldenAngle = Math.PI * (3 - Math.sqrt(5))
-    for (let i = 0; i < CENTRAL_COUNT; i++) {
-      const y = 1 - (i / (CENTRAL_COUNT - 1)) * 2
+    for (let i = 0; i < count; i++) {
+      const y = 1 - (i / (count - 1)) * 2
       const r = Math.sqrt(1 - y * y)
       const theta = goldenAngle * i
       const x = Math.cos(theta) * r
@@ -35,7 +35,7 @@ function useCentralPoints() {
       })
     }
     return arr
-  }, [])
+  }, [count])
 }
 
 function useSatellites() {
@@ -54,7 +54,7 @@ export default function HeroCSS({ onComplete }) {
   const vBase = theme === 'dark' ? '10,10,15' : '255,255,255'
   const [phase, setPhase] = useState('freeze')
   const [canvasReady, setCanvasReady] = useState(false)
-  const points = useCentralPoints()
+  const points = useCentralPoints(theme === 'light' ? CENTRAL_COUNT : 555)
   const satellites = useSatellites()
   const onCompleteRef = useRef(onComplete)
   useEffect(() => {
@@ -175,7 +175,7 @@ export default function HeroCSS({ onComplete }) {
   const sceneScale = phase === 'push' || phase === 'transform' ? 0.5 : phase === 'settle' ? 0.44 : 1
 
   return (
-    <section className="relative w-full h-screen min-h-[820px] overflow-hidden bg-gradient-to-b from-[#FAFBFC] via-[#F8FBFE] to-[#F4F9FD] dark:bg-athlonix-dark dark:bg-none flex items-center justify-center">
+    <section className="relative w-full h-screen min-h-[820px] overflow-hidden bg-gradient-to-b from-[#F2F2F4] via-[#ECECEE] to-[#E7E7E9] dark:bg-athlonix-dark dark:bg-none flex items-center justify-center">
       {/* a soft blue ambient glow behind the particles — light mode only. Not a dark fog, just
           enough warmth so the blue dots read as "glowing" against white instead of "sitting on
           top of" a flat background */}
@@ -206,7 +206,7 @@ export default function HeroCSS({ onComplete }) {
             {/* subtle bloom for the points against a light background — glow only, radius/size
                 of each point is untouched */}
             <filter id="lightBloom" x="-100%" y="-100%" width="300%" height="300%">
-              <feGaussianBlur stdDeviation="1.1" result="blur" />
+              <feGaussianBlur stdDeviation="0.5" result="blur" />
               <feMerge>
                 <feMergeNode in="blur" />
                 <feMergeNode in="SourceGraphic" />
@@ -252,12 +252,12 @@ export default function HeroCSS({ onComplete }) {
             // One unified deep blue family for light mode (#0369A1), matching the navbar and
             // heading accent exactly instead of several close-but-different blues.
             const gradColor = theme === 'light'
-              ? `rgb(${Math.round(8 + gradT * (3 - 8))}, ${Math.round(38 + gradT * (105 - 38))}, ${Math.round(72 + gradT * (161 - 72))})` // #08264C -> #03699A, both dark enough to read on white
+              ? `rgb(${Math.round(5 + gradT * (3 - 5))}, ${Math.round(26 + gradT * (68 - 26))}, ${Math.round(52 + gradT * (128 - 52))})` // a light, subtle gradient — deep navy to a moderately brighter blue, not a strong swing
               : `rgb(${Math.round(18 + gradT * (127 - 18))}, ${Math.round(58 + gradT * (179 - 58))}, ${Math.round(107 + gradT * (240 - 107))})`
             const dimColor = theme === 'light' ? DIM_COLOR_LIGHT : DIM_COLOR
             const dispersedColor = theme === 'light' ? '#0B3A6B' : '#EAF2F8'
             const color = isSettling ? gradColor : isCorrection ? (theme === 'light' ? LIGHT_ACCENT : SIGNATURE_BLUE) : p.isDisperse && isDispersed ? dispersedColor : dimColor
-            const size = theme === 'light' ? 2.7 + p.depth * 1.3 : 2.2 + p.depth * 1.1
+            const size = theme === 'light' ? 3.3 + p.depth * 1.4 : 2.2 + p.depth * 1.1
             return (
               <circle
                 key={i}
@@ -284,7 +284,7 @@ export default function HeroCSS({ onComplete }) {
             fontWeight="800"
             fontSize="38"
             letterSpacing="5"
-            fill={theme === 'light' ? '#0D2E5C' : '#EAF2F8'}
+            fill={theme === 'light' ? '#0369A1' : '#EAF2F8'}
             style={{
               opacity: showCrossGlow ? 1 : 0,
               filter: showCrossGlow
@@ -310,7 +310,7 @@ export default function HeroCSS({ onComplete }) {
       <LogoRevealScreen visible={showOverlays} />
       <HeroContentScreen visible={showOverlays} />
 
-      {!canvasReady && <div className="absolute inset-0 z-30 bg-[#FAFBFC] dark:bg-athlonix-dark" />}
+      {!canvasReady && <div className="absolute inset-0 z-30 bg-[#F2F2F4] dark:bg-athlonix-dark" />}
     </section>
   )
 }

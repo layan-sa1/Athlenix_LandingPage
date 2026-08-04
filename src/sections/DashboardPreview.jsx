@@ -173,7 +173,7 @@ export default function DashboardPreview() {
   }
 
   return (
-    <section id="platform" ref={sectionRef} className="relative py-24 lg:py-32 bg-[#FAFBFC] dark:bg-athlonix-dark overflow-hidden">
+    <section id="platform" ref={sectionRef} className="relative py-24 lg:py-32 bg-[#F2F2F4] dark:bg-athlonix-dark overflow-hidden">
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" />
       <div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full blur-3xl pointer-events-none transition-colors duration-700"
