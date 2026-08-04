@@ -50,7 +50,7 @@ const PORTALS = {
   },
 }
 
-function PortalHalf({ portalKey, isWide, isHovered, isInView, onEnter }) {
+function PortalHalf({ portalKey, isWide, isHovered, isInView, onEnter, onPortalClick }) {
   const portal = PORTALS[portalKey]
   const Icon = portal.icon
   return (
